@@ -1,0 +1,565 @@
+{% load django_htmx %}
+<!DOCTYPE html>
+<html lang="en" data-layout-mode="light_mode">
+{% load static %}
+{% load widget_tweaks %}
+
+<head>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="Grad-M market">
+
+	<title>
+		{% block title %}
+
+		{% endblock title %}
+	</title>
+	{% htmx_script %}
+	<script src="{% static '' %}js/theme-script.js"></script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="{% static '' %}img/favicon.png">
+
+	<!-- Apple Touch Icon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static '' %}img/apple-touch-icon.png">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/bootstrap.min.css">
+
+	<!-- Datetimepicker CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/bootstrap-datetimepicker.min.css">
+	<!-- Summernote CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/summernote/summernote-bs4.min.css">
+	<!-- animation CSS -->
+	<!-- Bootstrap Tagsinput CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
+	<link rel="stylesheet" href="{% static '' %}css/animate.css">
+	<link rel="stylesheet" href="{% static '' %}css/dataTables.bootstrap5.min.css">
+
+	<!-- Select2 CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/select2/css/select2.min.css">
+
+	<!-- Daterangepikcer CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/daterangepicker/daterangepicker.css">
+
+	<!-- Tabler Icon CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/tabler-icons/tabler-icons.css">
+
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="{% static '' %}plugins/fontawesome/css/all.min.css">
+
+	<!-- Color Picker Css -->
+	<link rel="stylesheet" href="{% static '' %}plugins/%40simonwep/pickr/themes/nano.min.css">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/style.css">
+	<link rel="stylesheet" href="{% static '' %}css/buttons.bootstrap.min.css">
+	<script defer src="{% static '' %}js/alpine.min.js"></script>
+	
+	<style>
+		
+		.dataTables_filter label input {
+			width: 200px !important;
+			height: 34px !important;
+			border: 1px solid #E6EAED !important;
+			background: #ffffff !important;
+			padding: 0 0 0 28px !important;
+			border-radius: 8px !important;
+			font-size: 13px !important;
+		}
+		/* fieldset:first-child{
+			display: none;
+		} */
+		label[for="id_canExpiried_0"]{
+			display: none;
+		}
+	</style>
+
+</head>
+
+<body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
+	<div id="global-loader">
+		<div class="whirly-loader"> </div>
+	</div>
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+
+		<!-- Header -->
+		<div class="header">
+			<div class="main-header">
+				<!-- Logo -->
+				<div class="header-left active">
+					<a href="index.html" class="logo logo-normal">
+						<img src="{% static '' %}img/logo.svg" alt="Img">
+					</a>
+					<a href="index.html" class="logo logo-white">
+						<img src="{% static '' %}img/logo-white.svg" alt="Img">
+					</a>
+					<a href="index.html" class="logo-small">
+						<img src="{% static '' %}img/logo-small.png" alt="Img">
+					</a>
+				</div>
+				<!-- /Logo -->
+				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
+					<span class="bar-icon">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</a>
+
+				<!-- Header Menu -->
+				<ul class="nav user-menu">
+
+					<!-- Search -->
+					<li class="nav-item nav-searchinputs">
+						<div class="top-nav-search">
+							<a href="javascript:void(0);" class="responsive-search">
+								<i class="fa fa-search"></i>
+							</a>
+							<form action="#" class="dropdown">
+								<div class="searchinputs input-group dropdown-toggle" id="dropdownMenuClickable"
+									data-bs-toggle="dropdown" data-bs-auto-close="outside">
+									<input type="text" placeholder="Search">
+									<div class="search-addon">
+										<span><i class="ti ti-search"></i></span>
+									</div>
+									<span class="input-group-text">
+										<kbd class="d-flex align-items-center"><img
+												src="{% static '' %}img/icons/command.svg" alt="img"
+												class="me-1">K</kbd>
+									</span>
+								</div>
+								<div class="dropdown-menu search-dropdown" aria-labelledby="dropdownMenuClickable">
+									<div class="search-info">
+										<h6><span><i data-feather="search" class="feather-16"></i></span>Recent Searches
+										</h6>
+										<ul class="search-tags">
+											<li><a href="javascript:void(0);">Products</a></li>
+											<li><a href="javascript:void(0);">Sales</a></li>
+											<li><a href="javascript:void(0);">Applications</a></li>
+										</ul>
+									</div>
+									<div class="search-info">
+										<h6><span><i data-feather="help-circle" class="feather-16"></i></span>Help</h6>
+										<p>How to Change Product Volume from 0 to 200 on Inventory management</p>
+										<p>Change Product Name</p>
+									</div>
+									<div class="search-info">
+										<h6><span><i data-feather="user" class="feather-16"></i></span>Customers</h6>
+										<ul class="customers">
+											<li><a href="javascript:void(0);">Aron Varu<img
+														src="{% static '' %}img/profiles/avator1.jpg" alt="Img"
+														class="img-fluid"></a></li>
+											<li><a href="javascript:void(0);">Jonita<img
+														src="{% static '' %}img/profiles/avatar-01.jpg" alt="Img"
+														class="img-fluid"></a></li>
+											<li><a href="javascript:void(0);">Aaron<img
+														src="{% static '' %}img/profiles/avatar-10.jpg" alt="Img"
+														class="img-fluid"></a></li>
+										</ul>
+									</div>
+								</div>
+							</form>
+						</div>
+					</li>
+					<!-- /Search -->
+
+				
+
+					<li class="nav-item dropdown link-nav">
+						<a href="javascript:void(0);" class="btn btn-primary btn-md d-inline-flex align-items-center"
+							data-bs-toggle="dropdown">
+							<i class="ti ti-circle-plus me-1"></i>Add New
+						</a>
+						<div class="dropdown-menu dropdown-xl dropdown-menu-center">
+							<div class="row g-2">
+								<div class="col-md-2">
+									<a href="category-list.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-brand-codepen"></i>
+										</span>
+										<p>Category</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="add-product.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-square-plus"></i>
+										</span>
+										<p>Product</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="category-list.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-shopping-bag"></i>
+										</span>
+										<p>Purchase</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="online-orders.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-shopping-cart"></i>
+										</span>
+										<p>Sale</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="expense-list.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-file-text"></i>
+										</span>
+										<p>Expense</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="quotation-list.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-device-floppy"></i>
+										</span>
+										<p>Quotation</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="sales-returns.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-copy"></i>
+										</span>
+										<p>Return</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="users.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-user"></i>
+										</span>
+										<p>User</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="customers.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-users"></i>
+										</span>
+										<p>Customer</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="sales-report.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-shield"></i>
+										</span>
+										<p>Biller</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="suppliers.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-user-check"></i>
+										</span>
+										<p>Supplier</p>
+									</a>
+								</div>
+								<div class="col-md-2">
+									<a href="stock-transfer.html" class="link-item">
+										<span class="link-icon">
+											<i class="ti ti-truck"></i>
+										</span>
+										<p>Transfer</p>
+									</a>
+								</div>
+							</div>
+						</div>
+					</li>
+
+					
+
+					<!-- Flag -->
+					<li class="nav-item dropdown has-arrow flag-nav nav-item-box">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);"
+							role="button">
+							<img src="{% static '' %}img/flags/french-flag.svg" alt="Language" class="img-fluid">
+						</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a href="javascript:void(0);" class="dropdown-item">
+								<img src="{% static '' %}img/flags/french-flag.svg" alt="Img" height="16">Français
+							</a>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<img src="{% static '' %}img/flags/english.svg" alt="Img" height="16">English
+							</a>
+							
+						</div>
+					</li>
+					<!-- /Flag -->
+
+					<li class="nav-item nav-item-box">
+						<a href="javascript:void(0);" id="btnFullscreen">
+							<i class="ti ti-maximize"></i>
+						</a>
+					</li>
+					<li class="nav-item nav-item-box">
+						<a href="email.html">
+							<i class="ti ti-mail"></i>
+							<span class="badge rounded-pill">1</span>
+						</a>
+					</li>
+					<!-- Notifications -->
+					<li class="nav-item dropdown nav-item-box">
+						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+							<i class="ti ti-bell"></i>
+						</a>
+						<div class="dropdown-menu notifications">
+							<div class="topnav-dropdown-header">
+								<h5 class="notification-title">Notifications</h5>
+								<a href="javascript:void(0)" class="clear-noti">Mark all as read</a>
+							</div>
+							<div class="noti-content">
+								<ul class="notification-list">
+									<li class="notification-message">
+										<a href="activities.html">
+											<div class="media d-flex">
+												<span class="avatar flex-shrink-0">
+													<img alt="Img" src="{% static '' %}img/profiles/avatar-13.jpg">
+												</span>
+												<div class="flex-grow-1">
+													<p class="noti-details"><span class="noti-title">James Kirwin</span>
+														confirmed his order. Order No: #78901.Estimated delivery: 2 days
+													</p>
+													<p class="noti-time">4 mins ago</p>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li class="notification-message">
+										<a href="activities.html">
+											<div class="media d-flex">
+												<span class="avatar flex-shrink-0">
+													<img alt="Img" src="{% static '' %}img/profiles/avatar-03.jpg">
+												</span>
+												<div class="flex-grow-1">
+													<p class="noti-details"><span class="noti-title">Leo Kelly</span>
+														cancelled his order scheduled for 17 Jan 2025</p>
+													<p class="noti-time">10 mins ago</p>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li class="notification-message">
+										<a href="activities.html" class="recent-msg">
+											<div class="media d-flex">
+												<span class="avatar flex-shrink-0">
+													<img alt="Img" src="{% static '' %}img/profiles/avatar-17.jpg">
+												</span>
+												<div class="flex-grow-1">
+													<p class="noti-details">Payment of $50 received for Order #67890
+														from <span class="noti-title">Antonio Engle</span></p>
+													<p class="noti-time">05 mins ago</p>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li class="notification-message">
+										<a href="activities.html" class="recent-msg">
+											<div class="media d-flex">
+												<span class="avatar flex-shrink-0">
+													<img alt="Img" src="{% static '' %}img/profiles/avatar-02.jpg">
+												</span>
+												<div class="flex-grow-1">
+													<p class="noti-details"><span class="noti-title">Andrea</span>
+														confirmed his order. Order No: #73401.Estimated delivery: 3 days
+													</p>
+													<p class="noti-time">4 mins ago</p>
+												</div>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="topnav-dropdown-footer d-flex align-items-center gap-3">
+								<a href="#" class="btn btn-secondary btn-md w-100">Cancel</a>
+								<a href="activities.html" class="btn btn-primary btn-md w-100">View all</a>
+							</div>
+						</div>
+					</li>
+					<!-- /Notifications -->
+
+					<li class="nav-item nav-item-box">
+						<a href="general-settings.html"><i class="ti ti-settings"></i></a>
+					</li>
+					<li class="nav-item dropdown has-arrow main-drop profile-nav">
+						<a href="javascript:void(0);" class="nav-link userset" data-bs-toggle="dropdown">
+							<span class="user-info p-0">
+								<span class="user-letter">
+									<img src="{% static '' %}img/profiles/avator1.jpg" alt="Img" class="img-fluid">
+								</span>
+							</span>
+						</a>
+						<div class="dropdown-menu menu-drop-user">
+							<div class="profileset d-flex align-items-center">
+								<span class="user-img me-2">
+									<img src="{% static '' %}img/profiles/avator1.jpg" alt="Img">
+								</span>
+								<div>
+									<h6 class="fw-medium">John Smilga</h6>
+									<p>Admin</p>
+								</div>
+							</div>
+							<a class="dropdown-item" href="profile.html"><i
+									class="ti ti-user-circle me-2"></i>MyProfile</a>
+							<a class="dropdown-item" href="sales-report.html"><i
+									class="ti ti-file-text me-2"></i>Reports</a>
+							<a class="dropdown-item" href="general-settings.html"><i
+									class="ti ti-settings-2 me-2"></i>Settings</a>
+							<hr class="my-2">
+							<a class="dropdown-item logout pb-0" href="signin.html"><i
+									class="ti ti-logout me-2"></i>Logout</a>
+						</div>
+					</li>
+				</ul>
+				<!-- /Header Menu -->
+
+				<!-- Mobile Menu -->
+				<div class="dropdown mobile-user-menu">
+					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+						aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a class="dropdown-item" href="profile.html">My Profile</a>
+						<a class="dropdown-item" href="general-settings.html">Settings</a>
+						<a class="dropdown-item" href="signin.html">Logout</a>
+					</div>
+				</div>
+				<!-- /Mobile Menu -->
+			</div>
+		</div>
+		<!-- /Header -->
+
+		{% include 'menu.html' %}
+
+
+
+		<div class="page-wrapper" >
+			{% block content %}
+
+			{% endblock content %}
+			<div id="content"></div>
+
+			<div
+				class="copyright-footer d-flex align-items-center justify-content-between border-top bg-white gap-3 flex-wrap">
+				<p class="fs-13 text-gray-9 mb-0">2025 &copy; GRADM SUPER MARKET . Tous droits réservés</p>
+				<p>Conçu et développé par <a href="javascript:void(0);" class="link-primary">Ir JOEDUCIEL</a></p>
+			</div>
+		</div>
+
+	</div>
+	<!-- /Main Wrapper -->
+
+	
+
+	<div class="modal fade" id="modal">
+		<div class="modal-dialog modal-dialog-centered custom-modal-two"
+			 hx-target="this"
+			 id="dialog"
+		>
+			<div id="content"></div>
+		</div>
+	</div>
+	<!-- jQuery -->
+	<script src="{% static '' %}js/jquery-3.7.1.min.js"></script>
+
+	<!-- Feather Icon JS -->
+	<script src="{% static '' %}js/feather.min.js"></script>
+
+	<!-- Slimscroll JS -->
+	<script src="{% static '' %}js/jquery.slimscroll.min.js"></script>
+
+	<!-- Bootstrap Core JS -->
+	<script src="{% static '' %}js/bootstrap.bundle.min.js"></script>
+
+	<!-- ApexChart JS -->
+	<script src="{% static '' %}plugins/apexchart/apexcharts.min.js"></script>
+	<script src="{% static '' %}plugins/apexchart/chart-data.js"></script>
+
+	<!-- Chart JS -->
+	<script src="{% static '' %}plugins/chartjs/chart.min.js"></script>
+	<script src="{% static '' %}plugins/chartjs/chart-data.js"></script>
+
+	<!-- Daterangepikcer JS -->
+	<script src="{% static '' %}js/moment.min.js"></script>
+	<!-- Datetimepicker JS -->
+	
+	<script src="{% static '' %}js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+	<script src="{% static '' %}js/htmx.min.js"></script>
+	<script src="{% static '' %}js/jquery.dataTables.min.js"></script>
+	<script src="{% static '' %}plugins/daterangepicker/daterangepicker.js"></script>
+
+	<!-- Select2 JS -->
+	<script src="{% static '' %}plugins/select2/js/select2.min.js"></script>
+	<!-- Summernote JS -->
+	<script src="{% static '' %}plugins/summernote/summernote-bs4.min.js" type="text/javascript"></script>
+	<!-- Bootstrap Tagsinput JS -->
+	<script src="{% static '' %}plugins/bootstrap-tagsinput/bootstrap-tagsinput.js" type="text/javascript"></script>
+
+	<!-- Color Picker JS -->
+	<script src="{% static '' %}plugins/%40simonwep/pickr/pickr.es5.min.js"></script>
+
+	<!-- Custom JS -->
+	<script src="{% static '' %}js/theme-colorpicker.js"></script>
+	<script src="{% static '' %}js/script.js"></script>
+	<script src="{% static '' %}js/app_scripts.js"></script>
+
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js" integrity="sha512-rDbVu5s98lzXZsmJoMa0DjHNE+RwPJACogUCLyq3Xxm2kJO6qsQwjbE5NDk2DqmlKcxDirCnU1wAzVLe12IM3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+	<script src="{% static '' %}plugins/rocket-loader/rocket-loader.js" defer></script>
+
+	<script src="{% static '' %}js/jszip.min.js"></script>
+	<script src="{% static '' %}js/pdfmake.min.js"></script>
+	<script src="{% static '' %}js/vfs_fonts.min.js"></script>
+
+	<script src="{% static '' %}js/buttons.bootstrap.js"></script>
+	<script src="{% static '' %}js/buttons.colVis.js"></script>
+	<script src="{% static '' %}js/buttons.dataTables.js"></script>
+	<script src="{% static '' %}js/buttons.html5.js"></script>
+	<script src="{% static '' %}js/buttons.print.js"></script>
+	<script src="{% static '' %}js/dataTables.buttons.js"></script>
+
+	<script defer
+		src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+		integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+		data-cf-beacon='{"rayId":"9297c487ff9a7414","version":"2025.1.0","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"3ca157e612a14eccbb30cf6db6691c29","b":1}'
+		crossorigin="anonymous"></script>
+	<script>
+		
+		const modal = new bootstrap.Modal(document.getElementById("modal"));
+
+		htmx.on("htmx:afterSwap", (e) => {
+				if (e.detail.target.id === "dialog") {
+					modal.show();
+				}
+				{% comment %} $('.select').select2({
+					minimumResultsForSearch: -1,
+					width: '100%'
+				}); {% endcomment %}
+				
+		});
+		htmx.on("htmx:beforeSwap", (e) => {
+			if (e.detail.target.id === "dialog" && !e.detail.xhr.response) {
+				modal.hide();
+			}
+			// if (e.detail.target.id === "content") {
+            //     loadTable();
+            // }
+		});
+	</script>
+	 
+	
+
+</body>
+
+</html>

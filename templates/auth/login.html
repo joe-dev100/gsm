@@ -1,0 +1,45 @@
+{% extends "auth/base.html" %}
+{% load widget_tweaks %}
+{% block title %} Athentification {% endblock %}
+{% block content %}
+{% load static %}
+<form action="" method="post" autocomplete="" >
+    
+    {% csrf_token %}
+    <div class="login-userset">
+        <div class="login-userheading">
+            <h3>Authentification</h3>
+            <h4>Connectez-vous à votre compte pour accèder à l'application</h4>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fas fa-xmark"></i></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="form-login">
+            <label class="form-label">Nom d'utilisateur</label>
+            <div class="form-addons">
+                {% render_field form.username|attr:"autocomplete:false" class="form-control" style="background:#fff!important"%}
+                <img src="{% static 'img/email.svg' %}" alt="img">
+            </div>
+        </div>
+        <div class="form-login">
+            <label>Mot de passe</label>
+            <div class="pass-group">
+                {% render_field form.password|attr:"type:password"|attr:"autocomplete:false" class="pass-input" style="background:#fff!important"%}
+                <span class="fas toggle-password fa-eye-slash"></span>
+            </div>
+        </div>
+       
+        <div class="form-login">
+            <button class="btn btn-login" type="submit">Se connecter</button>
+        </div>
+        
+        
+    </div>
+</form>
+{% endblock content %}

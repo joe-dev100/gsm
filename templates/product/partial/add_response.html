@@ -1,0 +1,244 @@
+{% load widget_tweaks %}
+<div class="content">
+    <div class="page-header">
+        <div class="add-item d-flex">
+            <div class="page-title">
+                <h4 class="fw-bold">Créer un article</h4>
+                <h6>Créer un nouvel article</h6>
+            </div>
+        </div>
+        <ul class="table-top-head">
+            <li>
+                <a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"><i class="ti ti-refresh"></i></a>
+            </li>
+            <li>
+                <a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i
+                        class="ti ti-chevron-up"></i></a>
+            </li>
+        </ul>
+        <div class="page-btn mt-0">
+            <a hx-get="{% url 'product:product_view' %}" hx-target="#content" class="btn btn-secondary"><i data-feather="arrow-left" class="me-2"></i>Liste
+                des produits</a>
+        </div>
+    </div>
+    <form hx-post="{{request.path}}" hx-target="#content" hx-swapp="outerHTML" class="add-product-form" x-data="{ check: false }">
+        {% csrf_token %}
+        <div class="add-product">
+            <div class="accordions-items-seperate" id="accordionSpacingExample">
+                <div class="accordion-item border mb-4">
+                    <h2 class="accordion-header" id="headingSpacingOne">
+                        <div class="accordion-button collapsed bg-white" data-bs-toggle="collapse"
+                            data-bs-target="#SpacingOne" aria-expanded="true" aria-controls="SpacingOne">
+                            <div class="d-flex align-items-center justify-content-between flex-fill">
+                                <h5 class="d-flex align-items-center"><i data-feather="info"
+                                        class="text-primary me-2"></i><span>Informations de l'article</span></h5>
+                            </div>
+                        </div>
+                    </h2>
+                    <div id="SpacingOne" class="accordion-collapse collapse show" aria-labelledby="headingSpacingOne">
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
+                                    class="fas fa-xmark"></i></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        <div class="accordion-body border-top">
+
+                            <div class="row">
+                                <div class="col-sm-4 col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Code de réference<span
+                                                class="text-danger ms-1">*</span></label>
+                                        {% render_field form.codeRef class="form-control" placeholder="Entrer le code de réf. du produit"%}
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-12">
+                                    <div class="mb-3" id="add-product-category">
+                                        <div class="add-newplus">
+                                            <label class="form-label">Catégorie du produit<span
+                                                    class="text-danger ms-1">*</span></label>
+                                            <a hx-get="{% url 'product:add_new_category' %}" hx-target="#dialog"><i data-feather="plus-circle"
+                                                    class="plus-down-add"></i><span>Add
+                                                    New</span></a>
+                                        </div>
+
+                                        {% render_field form.categorie class="select select2-hidden-accessible" %}
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-sm-4 col-12">
+
+                                    <div class="mb-3">
+                                        <div class="add-newplus">
+                                            <label class="form-label">Unité de vente<span
+                                                    class="text-danger ms-1">*</span></label>
+                                            <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                data-bs-target="#add-product-category"><i data-feather="plus-circle"
+                                                    class="plus-down-add"></i><span>Add
+                                                    New</span></a>
+                                        </div>
+
+                                        {% render_field form.unity class="select select2-hidden-accessible" %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Libellé de produit<span
+                                                class="text-danger ms-1">*</span></label>
+                                        {% render_field form.libelle class="form-control" placeholder="Entrer le nom de votre article"%}
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Stock d'alerte<span
+                                                class="text-danger ms-1">*</span></label>
+                                        {% render_field form.stockAlert class="form-control" placeholder="Entrer la Qté minimal en stock"%}
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item border mb-4">
+                    <h2 class="accordion-header" id="headingSpacingTwo">
+                        <div class="accordion-button collapsed bg-white" data-bs-toggle="collapse"
+                            data-bs-target="#SpacingTwo" aria-expanded="true" aria-controls="SpacingTwo">
+                            <div class="d-flex align-items-center justify-content-between flex-fill">
+                                <h5 class="d-flex align-items-center"><i data-feather="life-buoy"
+                                        class="text-primary me-2"></i><span>Tarification & Stocks</span></h5>
+                            </div>
+                        </div>
+                    </h2>
+                    <div id="SpacingTwo" class="accordion-collapse collapse show" aria-labelledby="headingSpacingTwo">
+                        <div class="accordion-body border-top">
+                            <div class="mb-3">
+
+                                <input type="checkbox" name="canExpiried" id="id_canExpiried" x-bind:checked="check"
+                                    class="form-check-input me-2 d-none">
+
+                                <div class="single-pill-product mb-3">
+
+                                    <ul class="nav nav-pills" id="pills-tab1" role="tablist">
+                                        <li class="nav-item" role="presentation" x-on:click="check = false">
+                                            <span class="custom_radio me-4 mb-0 active" id="pills-home-tab"
+                                                data-bs-toggle="pill" data-bs-target="#pills-home" role="tab"
+                                                aria-controls="pills-home" aria-selected="true">
+                                                <input type="radio" class="form-control" name="payment">
+                                                <span class="checkmark"></span>Produit sans date d'expiration</span>
+                                        </li>
+                                        <li class="nav-item" role="presentation" x-on:click="check = true">
+                                            <span class="custom_radio me-2 mb-0" id="pills-profile-tab"
+                                                data-bs-toggle="pill" data-bs-target="#pills-profile" role="tab"
+                                                aria-controls="pills-profile" aria-selected="false">
+                                                <input type="radio" class="form-control" name="sign">
+                                                <span class="checkmark"></span>Produit avec date d'expiration</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                                    aria-labelledby="pills-home-tab">
+                                    <div class="single-product">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Qté en vente<span
+                                                            class="text-danger ms-1">*</span></label>
+                                                            {% render_field form.qteEnVente class="form-control" placeholder="Qté en vente ex:1,2 pcs...."%}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Prix de vente<span
+                                                            class="text-danger ms-1">*</span></label>
+                                                            {% render_field form.price class="form-control" placeholder="Prix de vente du produit"%}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Qté en stock</label>
+                                                            {% render_field form.qtyStock class="form-control" placeholder="Prix de vente du produit"%}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Statut</label>
+                                                            {% render_field form.status class="select select2-hidden-accessible" %}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6 col-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Code-barre</label>
+                                                        {% render_field form.barreCode class="form-control" placeholder="Code barre du produit"%}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-8 col-sm-12 col-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Description</label>
+                                                            {% render_field form.description class="form-control" placeholder="Breve description du produit"%}
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                                    aria-labelledby="pills-profile-tab">
+                                    <div class="row select-color-add">
+
+                                    </div>
+                                        <div class="row my-3">
+                                            <div class="col-lg-4 col-sm-6">
+                                                <label class="form-label">Date d'expiration<span
+                                                    class="text-danger ms-1">*</span></label>
+                                                {% render_field form.expiried_on class="datetimepicker form-control"  placeholder="dd/mm/yyyy" %}
+                                            </div>
+                                        </div>
+                                       
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="d-flex align-items-center justify-content-end mb-4">
+                <button type="button" class="btn btn-secondary me-2">Cancel</button>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </div>
+    </form>
+    <script>
+    
+        htmx.on("htmx:afterSwap", (e) => {
+                if (e.detail.target.id === "dialog") {
+                    modal.show();
+                }
+               
+                if ($('.select').length > 0) {
+                    $('.select').select2({
+                        minimumResultsForSearch: -1,
+                        width: '100%'
+                    });
+                }
+
+
+            });
+     </script>
+</div>

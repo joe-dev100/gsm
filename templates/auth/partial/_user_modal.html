@@ -1,0 +1,57 @@
+{% load widget_tweaks %}
+
+
+  <div class="modal-content">
+    <div class="page-wrapper-new p-0">
+      <div class="content">
+        <div class="modal-header border-0 custom-modal-header">
+          <div class="page-title">
+            <h4>Modifier l'utilisateur</h4>
+          </div>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body custom-modal-body">
+          <form id="editForm" hx-post="{{request.path}}" hx-target="#content" >
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label">Nom d'utilisateur</label>
+              {% render_field form.username class="form-control" placeholder="Nom utilisateur" %}
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              {% render_field form.email class="form-control" placeholder="Adresse mail (facultatif)" %}
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Mot de passe</label>
+              {% render_field form.password|attr:"type:password" class="form-control pass-input" placeholder="Mot de passe" %}
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rôle</label>
+              <div class="d-flex">
+                {% render_field form.role class="select" %}
+              </div>
+            </div>
+            
+            <div class="modal-footer-btn">
+              <button
+                type="button"
+                class="btn btn-cancel me-2"
+                data-bs-dismiss="modal"
+              >
+                Annuler
+              </button>
+              <button type="submit" class="btn btn-submit" data-bs-dismiss="modal">Créer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+

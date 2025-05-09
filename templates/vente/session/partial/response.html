@@ -1,0 +1,68 @@
+
+    <div class="content" >
+        <div class="page-header">
+            <div class="add-item d-flex">
+                <div class="page-title">
+                    <h4>Session utilisateur</h4>
+                    <h6>Gestion de sessions des utilisateurs</h6>
+                </div>
+            </div>
+            
+        </div>
+        {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
+                            class="fas fa-xmark"></i></button>
+                </div>
+        {% endfor %}
+        {% endif %}
+        <div class=" card  px-4 py-3">
+
+            <div class="row " id="session_content">
+                  {% for s in items %}
+                <div class="card  col-12 col-md-5 p-0 me-md-4 mb-3">
+                    <div class="card-body py-2 px-3">
+                       <div class="d-flex justify-content-between">
+                        <div class="">
+                            <h3>{{s.login.username}}</h3>
+                            <h6>{{s.login.email}} </h6>
+                        </div>
+                        <div class="">
+                            {% if s.EstOuvert %}
+                                    <span class="badge badge-md bg-success"> Ouverte </span>
+                                    
+                                    {% else%}
+                                    <span class="badge badge-md bg-danger"> Fermée </span>
+                                    {% endif %}
+                        </div>
+                       </div>
+                       <hr class="mb-2"/>
+                       <div class="flex">
+                        <div class="">
+                            <p class="m-1">Dernière date de connexion</p>
+                            <h4>{% if s.LastDateOpen is None %}Aucune {% else %}{{s.LastDateOpen}}{% endif %}</h4>
+                        </div>
+                        <div class="">
+                            <p class="m-1">Dernière date de fermeture</p>
+                            <h4>{% if s.LastDateClose is None %}Aucune {% else %}{{s.LastDateClose}}{% endif %}</h4>
+                        </div>
+                       </div>
+    
+                    </div>
+                    <div class="card-footer">
+                        {% if s.EstOuvert %}
+                                    
+                                    <a hx-get="{% url "vente:session_update" s.pk %}" class="btn btn-danger" hx-target="#session_content" hx-select="#session_content" hx-swap="outerHTML">Fermer la session</a>
+                                    {% else%}
+                                    <a hx-get="{% url "vente:session_update" s.pk %}" class="btn btn-success" hx-target="#session_content" hx-select="#session_content" hx-swap="outerHTML">Ouvrir la session</a>
+                                    {% endif %}
+                        
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Paramètres géneraux {% endblock title %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="content settings-content">
+        <div class="page-header settings-pg-header">
+            <div class="add-item d-flex">
+                <div class="page-title">
+                    <h4>Paramètres</h4>
+                    <h6>Renseignez les informations nécessaire des votre
+                        entreprise</h6>
+                </div>
+            </div>
+            <ul class="table-top-head">
+                <li>
+                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Refresh"><i data-feather="rotate-ccw"
+                            class="feather-rotate-ccw"></i></a>
+                </li>
+                <li>
+                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Collapse" id="collapse-header"><i
+                            data-feather="chevron-up"
+                            class="feather-chevron-up"></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="settings-wrapper d-flex">
+                    <div class="sidebars settings-sidebar theiaStickySidebar"
+                        id="sidebar2">
+                        <div class="sidebar-inner slimscroll">
+                            <div id="sidebar-menu5" class="sidebar-menu">
+                                <ul>
+                                    <li class="submenu-open">
+                                        <ul>
+                                            <li>
+                                                <a href="{% url 'config:settings_view' %}"><i
+                                                        data-feather="settings"></i><span>Paramètres
+                                                        géneraux</span></a>
+
+                                            </li>
+
+                                            <li>
+                                                <a href ="{% url 'config:mail_settings' %}"
+                                                    class="active subdrop"><i
+                                                        data-feather="mail"></i><span>Mails
+                                                        de
+                                                        notification</span></a>
+
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-page-wrap">
+                        <div class="setting-title">
+                            <h4>Paramètres des mails de notifications</h4>   
+                        </div> 
+                        <p>Par defaut, les adresses mails qui commenceront à recevoir des notifications sont celles de l'administrateur et du gerant de l'entreprise. Si vous voulez autoriser d'autres mails des autres utilisateur, veuillez cocher la case de notification</p>
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table mb-0" id="email_table">
+                              <thead>
+                                <tr>
+                                <th scope="col" class="d-none">id</th> 
+                                  <th scope="col">Utilisateur</th>
+                                  <th scope="col">Rôle</th>
+                                  <th scope="col">Notification</th>
+                                  
+                                </tr>
+                              </thead>
+                              <tbody>
+                               {% for user in users %}
+                               <tr>
+                                <td class="d-none">{{user.pk}}</td>
+                              <td>{{user.email}}</td>
+                              <td>{{user.user_type}}</td>
+                              <td>
+                                <label class="checkboxs">
+                                    <input type="checkbox" {% if user.notified %}checked{% endif %} hx-post="{% url "config:update_user_notification" user.pk %}" hx-trigger="click" hx-target="#email_table" hx-select="#email_table" hx-swap="outerHTML">
+                                    <span class="checkmarks"></span>
+                                  </label>
+                              </td>
+                            </tr>
+                               {% endfor %}
+                                
+                              </tbody>
+                            </table>
+                          </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static "js/ResizeSensor.js" %}"></script>
+<script src="{% static "js/theia-sticky-sidebar.js" %}"></script>
+{% endblock js %}

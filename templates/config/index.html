@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Paramètres géneraux {% endblock title %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="content settings-content">
+        <div class="page-header settings-pg-header">
+            <div class="add-item d-flex">
+                <div class="page-title">
+                    <h4>Paramètres</h4>
+                    <h6>Renseignez les informations nécessaire des votre entreprise</h6>
+                </div>
+            </div>
+            <ul class="table-top-head">
+                <li>
+                    <a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"><i data-feather="rotate-ccw" class="feather-rotate-ccw"></i></a>
+                </li>
+                <li>
+                    <a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i data-feather="chevron-up" class="feather-chevron-up"></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                 <div class="settings-wrapper d-flex">
+                    <div class="sidebars settings-sidebar theiaStickySidebar" id="sidebar2">
+                        <div class="sidebar-inner slimscroll">
+                            <div id="sidebar-menu5" class="sidebar-menu">
+                                <ul>
+                                    <li class="submenu-open">
+                                        <ul>
+                                            <li >
+                                                <a href="{% url "config:settings_view" %}" class="active subdrop"><i data-feather="settings"></i><span>Paramètres généraux</span></a>
+                                               
+                                            </li>
+                                            
+                                            <li >
+                                                <a href="{% url "config:mail_settings" %}"><i data-feather="mail"></i><span>Mails de notification</span></a>
+                                                
+                                            </li>
+                                        </ul>								
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-page-wrap">
+                        <form action="" method="Post">
+                            {% csrf_token %}
+                            <div class="setting-title">
+                                <h4>Paramètres de base</h4>
+                                
+                            </div>
+                            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
+                            class="fas fa-xmark"></i></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                            <div class="card-title-head">
+                                <h6><span><i data-feather="tag" class="feather-chevron-up"></i></span>Mention légale</h6>
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.compony_idnat.label}}</label>
+                                            {% render_field form.compony_idnat class="form-control" %}
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.compony_rccm.label}}</label>
+                                        {% render_field form.compony_rccm class="form-control" %}
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="card-title-head">
+                                <h6><span><i data-feather="user" class="feather-chevron-up"></i></span>Informations de l'entréprise</h6>
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.compony_name.label}}</label>
+                                            {% render_field form.compony_name class="form-control" %}
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.compony_slogan.label}}</label>
+                                        {% render_field form.compony_slogan class="form-control" %}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="card-title-head">
+                                <h6><span><i data-feather="phone-call" class="feather-chevron-up"></i></span>Nos contacts</h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.compony_phone.label}}</label>
+                                        {% render_field form.compony_phone class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.compony_email.label}}</label>
+                                        {% render_field form.compony_email class="form-control" %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-title-head">
+                                <h6><span><i data-feather="map-pin" class="feather-chevron-up"></i></span>Notre adresse</h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.compony_adress.label}}</label>
+                                        {% render_field form.compony_adress class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Pays</label>
+                                        {% render_field form.compony_country class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Province</label>
+                                        {% render_field form.compony_province class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Ville</label>
+                                        {% render_field form.compony_city class="form-control" %}
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="card-title-head">
+                                <h6><span><i data-feather="shopping-cart" class="feather-chevron-up"></i></span>Vente & compte</h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.taux.label}}</label>
+                                        {% render_field form.taux class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.remise.label}}</label>
+                                        {% render_field form.remise class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{form.seuil_remise.label}}</label>
+                                        {% render_field form.seuil_remise class="form-control" %}
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="text-end settings-bottom-btn">
+                                <button type="button" class="btn btn-cancel me-2">Cancel</button>
+                                <button type="submit" class="btn btn-submit">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static "js/ResizeSensor.js" %}"></script>
+    <script src="{% static "theia-sticky-sidebar.js" %}"></script>
+{% endblock js %}

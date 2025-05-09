@@ -1,0 +1,144 @@
+{% load static %}
+
+<aside class="product-order-list" id="product-order-list">
+    
+    <div class="customer-info">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+            <div class="d-flex align-items-center">
+                <h4 class="mb-0">Nouvelle facture</h4>
+                <span class="badge badge-purple badge-xs fs-10 fw-medium ms-2">{{num_facture}}</span>
+            </div>
+            <a href="#" class="btn btn-sm btn-outline-primary shadow-primary" data-bs-toggle="modal" data-bs-target="#clearCart">Vider le pagnier</a>
+        </div>
+        <input type="text" class="form-control" placeholder="Nom du client">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
+                        class="fas fa-xmark"></i></button>
+            </div>
+            {% endfor %}
+        {% endif %}	
+    </div>
+    <div class="product-added block-section">
+        <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+            <h5 class="d-flex align-items-center mb-0">Order Details</h5>
+            <div class="badge bg-light text-gray-9 fs-12 fw-semibold py-2 border rounded">Items : <span class="text-teal">{{total_items|default:0}}</span></div>
+        </div>
+        <div class="product-wrap">
+            
+            
+            {% if items.count > 0 %}
+            <div class="product-list border-0 p-0">
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th class="bg-transparent fw-bold">Articles</th>
+                                <th class="bg-transparent fw-bold">Quantité</th>
+                                <th class="bg-transparent fw-bold">Total</th>
+                                <th class="bg-transparent fw-bold text-end"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {% for item in items %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <h6 class="fs-16 fw-medium"><a href="#" data-bs-toggle="modal" data-bs-target="#products">{{item.product.libelle|truncatechars:20}}</a></h6>
+                                        
+                                    </div>
+                                    Prix : {{item.prix}} CDF
+                                </td>
+                                <td>
+                                    <div class="qty-item m-0">
+                                        <a hx-get="{% url 'vente:decreseQty' item.pk %}" hx-target="#product-order-list" class="dec d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="minus" data-bs-original-title="minus"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle feather-14"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg></a>
+                                        <input type="text" class="form-control text-center" name="qty" value="{{item.qty}}" >
+                                        <a hx-get="{% url 'vente:increseQty' item.pk %}" hx-target="#product-order-list" class="inc d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="plus" data-bs-original-title="plus"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle feather-14"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></a>
+                                    </div>
+                                </td>
+                                <td class="fw-bold">{{item.total}} CDF</td>
+                                <td class="text-end">
+                                    <a class="btn-icon delete-icon" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete">
+                                        <i class="ti ti-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                                
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-cart">
+                <div class="mb-1">
+                    <img src="{% static '' %}img/icons/empty-cart.svg" alt="img">
+                </div>
+                <p class="fw-bold">Pas d'articles dans le pagnier</p>
+            </div>
+            {% endif %}
+                                                        
+        </div>
+    </div>
+    
+    {% if items.count > 0 %}
+        
+        <div class="block-section order-method bg-light m-0">									
+            <div class="order-total">
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td>Prix total</td>
+                            <td class="text-end">{{total}} CDF</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rémise:</td>
+                            <td class="text-end">{{remise}} CDF</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Net à payer:</td>
+                            <td class="text-end">{{net}} CDF</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>			
+            <div class="row gx-2">
+                <div class="col-4" style="margin-bottom: 100px;">
+                    <a href="javascript:void(0);" class="btn btn-soft-dark d-flex align-items-center justify-content-center w-100 mb-2" data-bs-toggle="modal" data-bs-target="#discount"><i  class="ti ti-percentage me-2"></i>Discount</a>
+                    
+                </div>
+                <div class="col-8" style="margin-bottom: 100px;">
+                    
+                    <a href="javascript:void(0);" class="btn  btn-teal d-flex align-items-center justify-content-center w-100 mb-2"  hx-get="{% url 'vente:pos'%}" hx-target="#product-order-list"><i  class="ti ti-cash-banknote me-2"></i>Valider</a>
+                    
+                </div>
+            </div>	
+                                    
+        </div>
+    {% endif %}
+        
+    <script>
+        const modal = new bootstrap.Modal(document.getElementById("print-receipt"));
+        htmx.on("htmx:afterSwap", (e) => {
+                if (e.detail.target.id === "dialog") {
+                    modal.show();
+                }
+                
+                
+        });
+        htmx.on("htmx:beforeSwap", (e) => {
+			if (e.detail.target.id === "dialog" && !e.detail.xhr.response) {
+				modal.hide();
+			}
+			// if (e.detail.target.id === "content") {
+            //     loadTable();
+            // }
+		});
+     </script>
+</aside>

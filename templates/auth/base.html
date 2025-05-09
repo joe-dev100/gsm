@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% load django_htmx %}
+<html lang="en">
+    
+<!-- Mirrored from dreamspos.dreamstechnologies.com/html/template/signin-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 01 Apr 2025 11:36:23 GMT -->
+<head>
+
+		<!-- Meta Tags -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Dreams POS is a powerful Bootstrap based Inventory Management Admin Template designed for businesses, offering seamless invoicing, project tracking, and estimates.">
+		<meta name="keywords" content="inventory management, admin dashboard, bootstrap template, invoicing, estimates, business management, responsive admin, POS system">
+		<meta name="author" content="Dreams Technologies">
+		<meta name="robots" content="index, follow">
+		<title>
+        {% block title %}
+            
+        {% endblock title %}
+            </title>
+
+		{% load static %}
+        {% load widget_tweaks %}
+        {% htmx_script %}
+	
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="{% static '' %}img/favicon.png">
+
+	<!-- Apple Touch Icon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static '' %}img/apple-touch-icon.png">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/bootstrap.min.css">
+
+	<!-- animation CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/animate.css">
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="{% static '' %}plugins/fontawesome/css/all.min.css">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/style.css">
+		
+    </head>
+    <body class="account-page bg-white">
+
+        <div id="global-loader" >
+			<div class="whirly-loader"> </div>
+		</div>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+			<div class="account-content">
+				<div class="login-wrapper login-new">
+                    <div class="row w-100">
+                        <div class="col-lg-5 mx-auto">
+                            <div class="login-content user-login">
+                                <div class="login-logo">
+                                    <img src="{% static '' %}img/logo.svg" alt="img">
+                                    <a href="index.html" class="login-logo logo-white">
+                                        <img src="assets/img/logo-white.svg"  alt="Img">
+                                    </a>
+                                </div>
+                                
+                                {% block content %}
+                                    
+                                {% endblock content %}
+                                    
+                            </div>
+                            <div class="my-4 d-flex justify-content-center align-items-center copyright-text">
+                                <p>Copyright &copy; 2025 DreamsPOS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+        </div>
+		<!-- /Main Wrapper -->
+
+		
+	<!-- jQuery -->
+	<script src="{% static '' %}js/jquery-3.7.1.min.js" ></script>
+
+	<!-- Feather Icon JS -->
+	<script src="{% static '' %}js/feather.min.js" ></script>
+
+	
+
+	<!-- Bootstrap Core JS -->
+	<script src="{% static '' %}js/bootstrap.bundle.min.js" ></script>
+
+
+	<script src="{% static '' %}js/htmx.min.js" ></script>
+
+	<script src="{% static '' %}js/script.js" ></script>
+
+	
+<script src="{% static '' %}plugins/rocket-loader/rocket-loader.min.js" defer></script>
+
+</body>
+
+<!-- Mirrored from dreamspos.dreamstechnologies.com/html/template/signin-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 01 Apr 2025 11:36:23 GMT -->
+</html>

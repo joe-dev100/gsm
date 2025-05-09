@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+
+
+  <div class="row">
+    <div class="col-lg-4 col-sm-6 col-12">
+      <div class="mb-3">
+        <label class="form-label d-block">Articles</label>
+        
+        <select name="product" id="" class="select" >
+          <option value="" selected="" data-select2-id="30">---------</option>
+          {% for item in products %}
+            <option value="{{ item.id }}">{{ item.libelle }}</option>
+          {% endfor %}
+            
+        </select>
+       
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-sm-6 col-12">
+      <div class="mb-3 ">
+        <label class="form-label ">Quantité</label>
+        
+        <input type="number" class="form-control" name="qty" value="1" min="1" required>
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-12">
+      <div class="mb-3 ">
+        <label class="form-label ">Motif de sortie</label>
+        
+        <input type="text" class="form-control" name="motif" placeholder="Spécifier le motif de sortie de cet article" required>
+      </div>
+    </div>
+  </div>
+
+<hr>
+
+
+

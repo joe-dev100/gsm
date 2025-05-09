@@ -1,0 +1,50 @@
+{% load widget_tweaks %}
+
+
+  <div class="modal-content">
+    <div class="page-wrapper-new p-0">
+      <div class="content">
+        <div class="modal-header border-0 custom-modal-header">
+          <div class="page-title">
+            <h4>Créer une catégorie</h4>
+          </div>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body custom-modal-body">
+          <form id="editForm" hx-post="{{request.path}}" hx-target="#content" >
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label">Unité de vente</label>
+              {% render_field form.unit class="form-control" placeholder="Unité de vente" %}
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tag</label>
+              {% render_field form.unitTag class="form-control" placeholder="Tag, abréviation ex: Ml, Cl..." %}
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              {% render_field form.status class="form-select" %}
+            </div>
+            
+            <div class="modal-footer-btn">
+              <button
+                type="button"
+                class="btn btn-cancel me-2"
+                data-bs-dismiss="modal"
+              >
+                Annuler
+              </button>
+              <button type="submit" class="btn btn-submit" data-bs-dismiss="modal">Créer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,25 @@
+{% load static %}
+
+<div class="row mb-3" id="product-list">
+    {% for item in articles %}
+												
+    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3" >
+        <div class="product-info card" hx-get="{% url 'vente:add_to_cart' item.pk %}" hx-target="#product-order-list" hx-swap="innerHTML" hx-trigger="click">
+            <a href="javascript:void(0);" class="pro-img">
+                <img src="{% static '' %}img/img_placeholder.jpg" alt="Products" class="product-img">
+                <span><i class="ti ti-circle-check-filled"></i></span>
+            </a>
+            <div class="px-2">
+                <h6 class="cat-name"><a href="javascript:void(0);">{{item.categorie}}</a></h6>
+                <h6 class="product-name"><a href="javascript:void(0);">{{item.libelle}}</a></h6>
+            </div>
+            <div class="d-flex align-items-center justify-content-between price px-2 py-2">
+                <span>{{item.qtyStock}} Pcs</span>
+                <p>{{item.price}} CDF</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+    

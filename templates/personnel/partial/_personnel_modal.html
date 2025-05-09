@@ -1,0 +1,89 @@
+{% load widget_tweaks %}
+
+
+<div class="modal-content">
+    <div class="page-wrapper-new p-0">
+        <div class="content">
+            <div class="modal-header border-0 custom-modal-header">
+                <div class="page-title">
+                    <h4>Modifier la catégorie</h4>
+                </div>
+                <button
+                        type="button"
+                        class="close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body custom-modal-body">
+                <form id="editForm" action="{{request.path}}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Utilisateur</label>
+                            {% render_field form.user class="form-select" %}
+                            <div class="help-block">{{ form.user.errors }}</div>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Nom</label>
+                            {% render_field form.nom class="form-control" %}
+                            <div class="help-block">{{ form.nom.errors }}</div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Postnom</label>
+                            {% render_field form.postnom class="form-control" %}
+                            <div class="help-block">{{ form.postnom.errors }}</div>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Prénom</label>
+                            {% render_field form.prenom class="form-control" %}
+                            <div class="help-block">{{ form.prenom.errors }}</div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Fonction</label>
+                            {% render_field form.fonction class="form-control" %}
+                            <div class="help-block">{{ form.fonction.errors }}</div>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Salaire</label>
+                            {% render_field form.salaire class="form-control" %}
+                            <div class="help-block">{{ form.salaire.errors }}</div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Date d'embauche</label>
+                            {% render_field form.date_embauche class="form-control" %}
+                            <div class="help-block">{{ form.date_embauche.errors }}</div>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Statut</label>
+                            {% render_field form.statut class="form-select" %}
+                        </div>
+                    </div>
+                    <div class="modal-footer-btn">
+                        <button
+                                type="button"
+                                class="btn btn-cancel me-2"
+                                data-bs-dismiss="modal"
+                        >
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn btn-submit">Appliquer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
