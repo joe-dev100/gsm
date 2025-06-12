@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
+from category.forms import CategoryForm
 from product.form import ProductForm
 from product.models import Product
 from unity.forms import UnityForm
@@ -28,7 +29,8 @@ def add_product(request):
     form = ProductForm()
     context = {
         'form': form,
-        'page': 'product'
+        'page': 'product',
+        'action':"create",
     }
     if request.method == "POST":
         canExpired=request.POST.get('canExpired')
@@ -54,34 +56,31 @@ def add_product(request):
     return render(request, 'product/add_product.html', context)
 
 def add_new_category(request):
-    form = ProductForm()
+    form = CategoryForm()
     context = {
-        'form': ProductForm(),
+        'form': CategoryForm(),
     }
     if request.method == "POST":
-        form = ProductForm(request.POST)
+        form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            html = render(request, "product/partial/add_new_cat_response.html", context)
+            html = render(request, "product/partial/add_new_cat_response.html", {  'form' : ProductForm()})
             return HttpResponse(html)
         html = render(request, "product/partial/add_new_cat_response.html", context)
         return HttpResponse(html)
-    return render(request, 'product/partial/_add_product_form.html', {'form': form})
+    return render(request, 'product/partial/_add_category_form.html', {'form': form})
 
 def add_new_unity(request):
-    form = UnityForm()
-    context = {
-        'form': ProductForm(),
-    }
     if request.method == "POST":
         form = UnityForm(request.POST)
         if form.is_valid():
             form.save()
-            html = render(request, "product/partial/add_new_unity_response.html", context)
+            html = render(request, "product/partial/add_new_unity_response.html",  {  'form' : ProductForm()})
             return HttpResponse(html)
-        html = render(request, "product/partial/add_new_unity_response.html", context)
+        messages.error(request,form.errors)
+        html = render(request, "product/partial/add_new_unity_response.html", {  'form' : ProductForm()})
         return HttpResponse(html)
-    return render(request, 'product/partial/_add_unity_form.html', {'form': form})
+    return render(request, 'product/partial/_add_unity_form.html', {'form': UnityForm()})
    
 
 
@@ -92,6 +91,7 @@ def product_update_view(request, pk):
     context = {
         'form': form,
         'items':items,
+        'action':"update",
         'page':'product-list'
     }
     if request.method == "POST":

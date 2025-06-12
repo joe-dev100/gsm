@@ -160,10 +160,8 @@ def login_view(request):
                     obj, created=Vente.objects.get_or_create(dateVente=datetime.now().date())
                     return redirect('dashboard:home_page')
                 else:
-                    
                     session=Session.objects.get(login=utilisateur)
                     if session.EstOuvert:
-                        numFacture(user)
                         return redirect('dashboard:teller_page')
                     messages.error(request, ("La session n'est pas ouverte !"))
             else:

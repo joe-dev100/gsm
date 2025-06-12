@@ -1,0 +1,304 @@
+{% load humanize %}
+<div class="modal-body" id="cash_contant">
+	<div class="tabs-sets">
+		<ul class="nav nav-tabs" id="myTabs" role="tablist">
+			<li class="nav-item" role="presentation">
+				<button class="nav-link active" id="onhold-tab" data-bs-toggle="tab" data-bs-target="#onhold"
+					type="button" aria-controls="onhold" aria-selected="true" role="tab">Cash</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="unpaid-tab" data-bs-toggle="tab" data-bs-target="#unpaid" type="button"
+					aria-controls="unpaid" aria-selected="false" role="tab" tabindex="-1">Entrées</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="paid-tab" data-bs-toggle="tab" data-bs-target="#paid" type="button"
+					aria-controls="paid" aria-selected="false" role="tab" tabindex="-1">Sortie</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="change-tab" data-bs-toggle="tab" data-bs-target="#change" type="button"
+					aria-controls="change" aria-selected="false" role="tab" tabindex="-1">Change</button>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="onhold" role="tabpanel" aria-labelledby="onhold-tab">
+				{% if messages %}
+					{% for message in messages %}
+					<div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
+						{{ message }}
+						<button type="button" class="btn-close p-0 me-2 mt-2 fs-10" data-bs-dismiss="alert" aria-label="Close"  ><i
+								class="fas fa-xmark fs-10"></i></button>
+					</div>
+					{% endfor %}
+					{% endif %}
+				<div class="order-body">
+					<div class="card bg-light mb-3">
+						<div class="card-body">
+							<span class="badge bg-dark fs-12 mb-2">Cash du jour</span>
+							<div class="row g-3">
+								<div class="col-md-6">
+									<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Franc :</span>
+										{{cash.franc|default:0}} CDF</p>
+									<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Dollars
+											:</span> ${{cash.dollar|default:0}}</p>
+								</div>
+								<div class="col-md-6">
+									<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Utilisateur :</span>
+										{{request.user.username}}</p>
+									<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date
+											:</span>{{cash.date}}</p>
+								</div>
+							</div>
+							{% if not cash.estConfirme %}
+							<div class="bg-danger-transparent p-3 rounded text-center my-3">
+								<p class="text-danger fw-medium">Veuillez confirmer le montant du
+									cash ou informez le boss en cas d'incoherence !</p>
+							</div>
+							<div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
+								<a href="javascript:void(0);" class="btn btn-md btn-orange">Confirmer</a>
+
+							</div>
+							{% endif %}
+
+
+						</div>
+					</div>
+					<div class="card bg-light mb-3">
+						<div class="card-body">
+							<span class="badge bg-dark fs-12 mb-2">Entrées</span>
+							<div class="mb-3">
+								<div class="row g-3">
+									<div class="col-md-6">
+										<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Total Franc
+												:</span>{{total_entree_franc|intcomma|default:0}} CDF</p>
+
+									</div>
+									<div class="col-md-6">
+										<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Total Dollars
+												:</span>{{total_entree_dollar|intcomma|default:0}}$</p>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card bg-light mb-3">
+						<div class="card-body">
+							<span class="badge bg-dark fs-12 mb-2">Sorties</span>
+							<div class="mb-3">
+								<div class="row g-3">
+									<div class="col-md-6">
+										<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Total Franc
+												:</span>{{total_sortie_franc|intcomma|default:0}} CDF</p>
+
+									</div>
+									<div class="col-md-6">
+										<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Total Dollars
+												:</span>{{total_sortie_dollar|intcomma|default:0}}$</p>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- ENTREE CASH  -->
+			<div class="tab-pane fade" id="unpaid" role="tabpanel" aria-labelledby="unpaid-tab">
+				<div class="" id="entree_response">
+					<div class="card bg-light mb-3">
+						<div class="card-body ">
+							<form hx-post="{% url 'cash:entree_cash' %}" hx-target="#cash_contant">
+								{% csrf_token %}
+								<h5 class="mb-2">Nouvelle entrée cash</h5>
+								<div class="row">
+									<div class="col-6 mb-3">
+										<input type="number" class="form-control" placeholder="Montant en dollar"
+											name="dollar">
+									</div>
+									<div class="col-6 mb-3">
+										<input type="number" class="form-control" placeholder="Montant en franc"
+											name="franc">
+									</div>
+									<div class="col-9 mb-3">
+										<input type="text" class="form-control" placeholder="Description"
+											name="description" required>
+									</div>
+									<div class="col-3 mb-3">
+										<button type="submit" class="btn btn-md btn-orange w-100">Ajouter</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table mb-0">
+							<thead>
+								<tr>
+									<th>Dollar</th>
+									<th>Franc</th>
+									<th>Description</th>
+									<th>Statut</th>
+									<th>action</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for item in entrees %}
+								<tr>
+									<td>{{item.dollar}}</td>
+									<td>{{item.franc}}</td>
+									<td>{{item.description}}</td>
+									<td>
+										{% if item.estConfirme %}
+										<span class="badge bg-success fw-medium fs-10">Validé</span>
+										{% else %}
+										<span class="badge bg-danger fw-medium fs-10">Non
+											validé</span>
+										{% endif %}
+									</td>
+									<td>
+										<div class="edit-delete-action">
+											<a href="javascript:void(0);" class=""
+												hx-get="{% url 'cash:delete_entree' item.id %}"
+												hx-target="#cash_contant" hx-swap="outerHTML" hx-confirm="Voulez-vous vraiment supprimer cette entree ?"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+													stroke="currentColor" stroke-width="2" stroke-linecap="round"
+													stroke-linejoin="round" class="feather feather-trash-2">
+													<polyline points="3 6 5 6 21 6"></polyline>
+													<path
+														d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+													</path>
+													<line x1="10" y1="11" x2="10" y2="17"></line>
+													<line x1="14" y1="11" x2="14" y2="17"></line>
+												</svg></a>
+										</div>
+									</td>
+								</tr>
+								{% endfor %}
+
+
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="paid" role="tabpanel" aria-labelledby="paid-tab">
+				<div class="" id="sortie_response">
+					{% if messages %}
+					{% for message in messages %}
+					<div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
+								class="fas fa-xmark"></i></button>
+					</div>
+					{% endfor %}
+					{% endif %}
+					<div class="card bg-light mb-3">
+						<div class="card-body ">
+							<form hx-post="{% url 'cash:sortie_cash' %}" hx-target="#cash_contant">
+								{% csrf_token %}
+								<h5 class="mb-2">Nouvelle sortie cash</h5>
+								<div class="row">
+									<div class="col-6 mb-3">
+										<input type="number" class="form-control" placeholder="Montant en dollar"
+											name="dollar">
+									</div>
+									<div class="col-6 mb-3">
+										<input type="number" class="form-control" placeholder="Montant en franc"
+											name="franc">
+									</div>
+									<div class="col-9 mb-3">
+										<input type="text" class="form-control" placeholder="Description"
+											name="description" required>
+									</div>
+									<div class="col-3 mb-3">
+										<button type="submit" class="btn btn-md btn-orange w-100">Ajouter</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table mb-0">
+							<thead>
+								<tr>
+									<th>Dollar</th>
+									<th>Franc</th>
+									<th>Description</th>
+									<th>Statut</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for item in sorties %}
+								<tr>
+									<td>{{item.dollar}}</td>
+									<td>{{item.franc}}</td>
+									<td>{{item.description}}</td>
+									<td>
+										{% if item.estConfirme %}
+										<span class="badge bg-success fw-medium fs-10">Validé</span>
+										{% else %}
+										<span class="badge bg-danger fw-medium fs-10">Non
+											validé</span>
+										{% endif %}
+									</td>
+									<td>
+										<div class="edit-delete-action">
+											<a href="javascript:void(0);" class=""
+												hx-get="{% url 'cash:delete_sortie' item.id %}"
+												hx-target="#cash_contant" hx-swap="outerHTML" hx-confirm="Voulez-vous vraiment supprimer cette sortie ?"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+													stroke="currentColor" stroke-width="2" stroke-linecap="round"
+													stroke-linejoin="round" class="feather feather-trash-2">
+													<polyline points="3 6 5 6 21 6"></polyline>
+													<path
+														d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+													</path>
+													<line x1="10" y1="11" x2="10" y2="17"></line>
+													<line x1="14" y1="11" x2="14" y2="17"></line>
+												</svg></a>
+										</div>
+									</td>
+								</tr>
+								{% endfor %}
+
+
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="change" role="tabpanel" aria-labelledby="change-tab">
+				<div class="card bg-light mb-3">
+					
+					<div class="card-body ">
+						<form hx-post="{% url 'cash:change_devise' %}" hx-target="#cash_contant">
+							{% csrf_token %}
+							<h5 class="mb-2">Change devise</h5>
+							<div class="row">
+
+								<div class="col-12 mb-3">
+									<input type="number" class="form-control"
+										placeholder="Montant en dollar pour le change" name="devise">
+								</div>
+
+								<div class="col-12 mb-3">
+									<button type="submit" class="btn  btn-orange w-100">Changer
+										devise</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>

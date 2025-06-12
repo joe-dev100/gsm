@@ -11,7 +11,6 @@ class Setting(models.Model):
     compony_phone=models.CharField(max_length=255,verbose_name="Téléphone de l'entréprise", blank=True,null=True)
     compony_email=models.CharField(max_length=255,verbose_name="Adresse mail de l'entréprise", blank=True,null=True)
     compony_province=models.CharField(max_length=255,verbose_name="Adresse de l'entréprise", blank=True,null=True)
-    compony_adress=models.CharField(max_length=255,verbose_name="Adresse de l'entréprise", blank=True,null=True)
     taux=models.PositiveSmallIntegerField(default=2800, verbose_name="Taux de change", blank=True,null=True)
     remise=models.DecimalField(default=0, decimal_places=2, verbose_name='Remise sur vente', max_digits=15, blank=True,null=True)
     seuil_remise=models.BigIntegerField(default=0,verbose_name="Somme min. à beneficier de la remise ", blank=True,null=True)

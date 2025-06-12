@@ -1,6 +1,4 @@
 {% load widget_tweaks %}
-
-
   <div class="modal-content">
     <div class="page-wrapper-new p-0">
       <div class="content">
@@ -18,7 +16,7 @@
           </button>
         </div>
         <div class="modal-body custom-modal-body">
-          <form id="editForm" hx-post="{% url 'product:add_new_unity' %}" hx-target="#add-product-unity" hx-swap="outerHTML" >
+          <form  hx-post="{% url 'product:add_new_unity' %}" hx-target="#add-product-unity" hx-swap="outerHTML" method="post">
             {% csrf_token %}
             <div class="mb-3">
               <label class="form-label">Unité de vente</label>

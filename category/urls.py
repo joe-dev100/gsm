@@ -4,9 +4,9 @@ app_name = 'category'
 urlpatterns = [
     path('list/',category_view,name="category_list_view"),
     path('edit/<int:pk>/',category_update_view,name="category_update_view"),
-    
-
     path('delete/<int:pk>/',category_delete_view,name="category_delete_view"),
+    path('restore/<int:pk>/',category_restore_view,name="category_restore_view"),
+    path('show/deleted/',show_deleted_categories, name="show_deleted"),
     path('add/',category_add_view,name="category_add_view"),
     path('active/all/',category_active_all_view,name="category_active_all_view"),
     path('deactive/all/',category_deactive_all_view,name="category_deactive_all_view"),

@@ -15,7 +15,7 @@ class Session(models.Model):
     LastDateOpen = models.DateTimeField(blank=True, null=True)
     LastDateClose = models.DateTimeField(blank=True, null=True)
     def __str__(self):
-        return self.login.email
+        return self.login.username
 
     class Meta:
         db_table = 't_Session'
@@ -30,7 +30,7 @@ class Vente(models.Model):
     total_franc = models.IntegerField(default=0)
     total_dollar = models.IntegerField(default=0)
     def __str__(self):
-        return self.dateVente
+        return f'vente du {self.dateVente}'
 
     class Meta:
         db_table = 't_Vente'
@@ -96,9 +96,9 @@ class LigneFacture(models.Model):
 
 class NumFacture(models.Model):
     lastNum = models.SmallIntegerField(verbose_name="Dernier Numéro de Facture", default=0)
-    
+    date =models.DateField()
     def __str__(self):
-        return self.numFacture
+        return f'{self.lastNum}'
 
     class Meta:
         db_table = 't_NumFacture'

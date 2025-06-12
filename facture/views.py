@@ -42,5 +42,19 @@ def delete_facture(request, pk):
             html = render(request, "facture/partial/response.html", context)
             return HttpResponse(html)
     
-    html = render(request, "facture/partial/response.html", context)
-    return HttpResponse(html)
+        html = render(request, "facture/partial/response.html", context)
+        return HttpResponse(html)
+
+
+def filter_facture_by_date(request):
+    if request.method == "POST":
+        datestart = request.POST.get('dateStart')
+        dateend = request.POST.get('dateEnd')
+        items=Facture.objects.filter(dateFacture__range=[datestart, dateend]).all().order_by('-dateFacture')
+        
+        context = {
+            'items': items,
+            'page': 'entree',  
+        }
+        html = render(request, "facture/partial/response.html", context)
+        return HttpResponse(html)

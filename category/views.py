@@ -8,11 +8,13 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
+from product.models import Product
+
 
 @login_required
 def category_view(request):
    
-    category=Categorie.objects.all().order_by('name')
+    category=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     form = CategoryForm()
     context={
         'categories':category,
@@ -26,11 +28,11 @@ def category_view(request):
 
 @login_required
 def category_add_view(request):
-    categories = Categorie.objects.all().order_by('name')
+    category=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     form = CategoryForm()
     context = {
         'form': form,
-        'categories': categories,
+        'categories': category,
         'page': 'category'
     }
     if request.method == "POST":
@@ -46,9 +48,10 @@ def category_add_view(request):
     return render(request, 'category/partial/_add_category_form.html', context)
 
 
+@login_required
 def category_update_view(request, pk):
     cat=Categorie.objects.get(pk=pk)
-    categories=Categorie.objects.all().order_by('name')
+    categories=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     form = CategoryForm(request.POST or None, instance=cat)
     context = {
         'form': form,
@@ -69,9 +72,15 @@ def category_update_view(request, pk):
     return render(request,'category/partial/_category_modal.html',context)
 
 def category_delete_view(request,pk):
-    cat=Categorie.objects.get(pk=pk).delete()
-   
-    categories=Categorie.objects.all().order_by('name')
+    cat=Categorie.objects.get(pk=pk)
+    cat.status="Supprimée"
+    cat.save()
+    products= Product.objects.filter(categorie=cat)
+    if products.exists():
+        for product in products:
+            product.status="Supprimé"
+            product.save()
+    categories=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     context={
         'categories':categories,
         'page':'category'
@@ -80,12 +89,12 @@ def category_delete_view(request,pk):
     html = render(request, "category/partial/response.html", context)
     return HttpResponse(html)
     
-
+@login_required
 def categorie_delete_selection(request):
-    categories = Categorie.objects.all().order_by('name')
+    category=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     form = CategoryForm()
     context = {
-        'categories': categories,
+        'categories': category,
         'page': 'Categorie',
         'form': form,
     }
@@ -98,7 +107,13 @@ def categorie_delete_selection(request):
             return HttpResponse(html)
         for id in cat_ids:
             cat = Categorie.objects.get(pk=id)
-            cat.delete()
+            products= Product.objects.filter(categorie=cat)
+            if products.exists():
+                for product in products:
+                    product.status = "Supprimé"
+                    product.save()
+            cat.status="Supprimée"
+            cat.save()
         messages.success(request, f"{len(cat_ids)} Catégories supprimées avec succès")
         html = render(request, "category/partial/response.html", context)
         return HttpResponse(html)
@@ -106,10 +121,10 @@ def categorie_delete_selection(request):
 
 
 def categorie_activate_selection(request):
-    categories = Categorie.objects.all().order_by('name')
+    category=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     form = CategoryForm()
     context = {
-        'categories': categories,
+        'categories': category,
         'page': 'Categorie',
         'form': form,
     }
@@ -121,6 +136,11 @@ def categorie_activate_selection(request):
             return HttpResponse(html)
         for id in cat_ids:
             cat = Categorie.objects.get(pk=id)
+            products= Product.objects.filter(categorie=cat)
+            if products.exists():
+                for product in products:
+                    product.status = "Activé"
+                    product.save()
             cat.status = "Activée"
             cat.save()
         messages.success(request, "Catégories activées avec succès")
@@ -130,10 +150,10 @@ def categorie_activate_selection(request):
 
 
 def category_deactivate_selection(request):
-    Categories = Categorie.objects.all().order_by('name')
+    category=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     form = CategoryForm()
     context = {
-        'categories': Categories,
+        'categories': category,
         'page': 'Categorie',
         'form': form,
     }
@@ -145,6 +165,11 @@ def category_deactivate_selection(request):
             return HttpResponse(html)
         for id in cat_ids:
             cat = Categorie.objects.get(pk=id)
+            products= Product.objects.filter(categorie=cat)
+            if products.exists():
+                for product in products:
+                    product.status = "Désactivé"
+                    product.save()
             cat.status = "Désactivée"
             cat.save()
         messages.success(request, "Catégories désactivées avec succès")
@@ -155,10 +180,10 @@ def category_deactivate_selection(request):
 
 def category_delete_all_view(request):
     count = Categorie.objects.all().count()
-    
-    Categorie.objects.all().delete()
+    Product.objects.all().update(status="Supprimé")
+    Categorie.objects.all().update(status="Supprimée")
    
-    categories=Categorie.objects.all().order_by('name')
+    categories=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     context={
         'categories':categories,
         'page':'category'
@@ -169,10 +194,9 @@ def category_delete_all_view(request):
 
 def category_active_all_view(request):
     count = Categorie.objects.filter(status="Désactivée").count()
-    
-    Categorie.objects.filter(status="Désactivée").update(status="Activée")
-   
-    categories=Categorie.objects.all().order_by('name')
+    Categorie.objects.filter(status="Désactivée").exclude(status="Supprimée").update(status="Activée")
+    Product.objects.filter(status="Désactivé").exclude(status="Supprimé",unity__status="Supprimée").update(status="Activé")
+    categories=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     context={
         'categories':categories,
         'page':'category'
@@ -184,9 +208,10 @@ def category_active_all_view(request):
 def category_deactive_all_view(request):
     count = Categorie.objects.filter(status="Activée").count()
     
-    Categorie.objects.filter(status="Activée").update(status="Désactivée")
+    Categorie.objects.filter(status="Activée").exclude(status="Supprimée").update(status="Désactivée")
+    Product.objects.filter(status="Activé").exclude(status="Supprimée").update(status="Désactivé")
    
-    categories=Categorie.objects.all().order_by('name')
+    categories=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
     context={
         'categories':categories,
         'page':'category'
@@ -195,7 +220,40 @@ def category_deactive_all_view(request):
     html = render(request, "category/partial/response.html", context)
     return HttpResponse(html)
     
-
+def show_deleted_categories(request):
+    show_deleted=request.GET.get('show_deleted')
+    status=False
+    categories = Categorie.objects.filter(status="Supprimée").order_by('name')
+    if show_deleted is None:
+        status=False
+        categories=Categorie.objects.all().exclude(status="Supprimée").order_by('name')
+    if show_deleted == "on":
+        status=True
+        categories = Categorie.objects.filter(status="Supprimée").order_by('name')
+    context = {
+        'categories': categories,
+        'status': status,
+        'page': 'category'
+    }
+    print("show_deleted", show_deleted)
+    return render(request, "category/partial/response.html", context)
+    
+def category_restore_view(request, pk):
+    cat = Categorie.objects.get(pk=pk)
+    cat.status = "Activée"
+    cat.save()
+    prod=Product.objects.filter(categorie=cat).exists()
+    if prod  and prod.unity.status=="Activée":
+        prod.status="Activé"
+        prod.save()
+    categories = Categorie.objects.all().exclude(status="Supprimée").order_by('name')
+    context = {
+        'categories': categories,
+        'page': 'category'
+    }
+    messages.success(request, "Catégorie restaurée avec succès")
+    html = render(request, "category/partial/response.html", context)
+    return HttpResponse(html)
  
 
     

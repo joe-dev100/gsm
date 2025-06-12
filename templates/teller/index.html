@@ -1,344 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
-	{% load django_htmx %}
-	{% load static %}
-	{% load widget_tweaks %}
-	{% load humanize %}
+{% load django_htmx %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
 <!-- Mirrored from dreamspos.dreamstechnologies.com/html/template/pos-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 01 Apr 2025 11:35:54 GMT -->
+
 <head>
 
-		<!-- Meta Tags -->
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Dreams POS is a powerful Bootstrap based Inventory Management Admin Template designed for businesses, offering seamless invoicing, project tracking, and estimates.">
-		<meta name="keywords" content="inventory management, admin dashboard, bootstrap template, invoicing, estimates, business management, responsive admin, POS system">
-		<meta name="author" content="Dreams Technologies">
-		<meta name="robots" content="index, follow">
-		<title>Point de vente</title>
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description"
+		content="Dreams POS is a powerful Bootstrap based Inventory Management Admin Template designed for businesses, offering seamless invoicing, project tracking, and estimates.">
+	<meta name="keywords"
+		content="inventory management, admin dashboard, bootstrap template, invoicing, estimates, business management, responsive admin, POS system">
+	<meta name="author" content="Dreams Technologies">
+	<meta name="robots" content="index, follow">
+	<title>Point de vente</title>
 
-		<script src="{% static '' %}js/theme-script.js" ></script>
-		{% htmx_script %}
-		<!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="{% static '' %}img/favicon.png">
+	<script src="{% static '' %}js/theme-script.js"></script>
+	{% htmx_script %}
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="{% static '' %}img/favicon.png">
 
-		<!-- Apple Touch Icon -->
-		<link rel="apple-touch-icon" sizes="180x180" href="{% static '' %}img/apple-touch-icon.png">
-		
-		<!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="{% static '' %}css/bootstrap.min.css">
+	<!-- Apple Touch Icon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static '' %}img/apple-touch-icon.png">
 
-		<!-- Datetimepicker CSS -->
-		<link rel="stylesheet" href="{% static '' %}css/bootstrap-datetimepicker.min.css">
-		
-		<!-- animation CSS -->
-        <link rel="stylesheet" href="{% static '' %}css/animate.css">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/bootstrap.min.css">
 
-		<!-- Select2 CSS -->
-		<link rel="stylesheet" href="{% static '' %}plugins/select2/css/select2.min.css">
+	<!-- Datetimepicker CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/bootstrap-datetimepicker.min.css">
 
-		<!-- Datatable CSS -->
-		<link rel="stylesheet" href="{% static '' %}css/dataTables.bootstrap5.min.css">
-		
-        <!-- Fontawesome CSS -->
-		<link rel="stylesheet" href="{% static '' %}plugins/fontawesome/css/fontawesome.min.css">
-		<link rel="stylesheet" href="{% static '' %}plugins/fontawesome/css/all.min.css">
+	<!-- animation CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/animate.css">
 
-		<!-- Daterangepikcer CSS -->
-		<link rel="stylesheet" href="{% static '' %}plugins/daterangepicker/daterangepicker.css">
+	<!-- Select2 CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/select2/css/select2.min.css">
 
-		<!-- Tabler Icon CSS -->
-		<link rel="stylesheet" href="{% static '' %}plugins/tabler-icons/tabler-icons.css">
+	<!-- Datatable CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/dataTables.bootstrap5.min.css">
 
-		<!-- Owl Carousel CSS -->
-		<link rel="stylesheet" href="{% static '' %}plugins/owlcarousel/owl.carousel.min.css">
-		<link rel="stylesheet" href="{% static '' %}plugins/owlcarousel/owl.theme.default.min.css">
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="{% static '' %}plugins/fontawesome/css/all.min.css">
+
+	<!-- Daterangepikcer CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/daterangepicker/daterangepicker.css">
+
+	<!-- Tabler Icon CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/tabler-icons/tabler-icons.css">
+
+	<!-- Owl Carousel CSS -->
+	<link rel="stylesheet" href="{% static '' %}plugins/owlcarousel/owl.carousel.min.css">
+	<link rel="stylesheet" href="{% static '' %}plugins/owlcarousel/owl.theme.default.min.css">
 
 
-		
-		<!-- Color Picker Css -->
+
+	<!-- Color Picker Css -->
 	<link rel="stylesheet" href="{% static '' %}plugins/%40simonwep/pickr/themes/nano.min.css">
 
-	    <!-- Main CSS -->
-        <link rel="stylesheet" href="{% static '' %}css/style.css">
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="{% static '' %}css/style.css">
 
-		<style>
-			.sidebar-contact {
+	<style>
+		.sidebar-contact {
+			display: none !important;
+		}
+
+		@media print {
+			@page {
+				size: 80mm auto;
+				margin: 0;
+				padding: 0;
+				position: relative;
+
+			}
+
+			body * {
+				font-size: 12px !important;
+			}
+
+			div.modal {
 				display: none !important;
 			}
 
-			@media print{
-				@page {
-        			size: 80mm auto ;
-					margin: 0;
-					padding: 0;
-					position: relative;
-					
-   				 } 
-				
-				body *{
-					font-size: 12px !important;
-				}
-				
-				div.modal{
-					display: none !important;
-				}
-				*{
-					font-size: 12px !important;
-					
-				}
-				body {
-					margin: 0;
-					position: relative;
-					width: 80mm !important;
-				}
-				
-				#prod_list,
-				.header,
-				.pos-footer
-				{
-					display: none !important;
-				}
-				#posCart{
-					width: 80mm !important;
-					display: block !important;
-					border: none !important;
-					
-				}
-				#printBtn{
-					display: none !important;
-				}
-				.modal-content,.modal-dialog{
-					width: 80mm !important;
-					margin: 0 !important;
-					padding: 0 !important;
-					border: none !important;
-					
-				}
-				.modal-body{
-					width: 80mm !important;
-					margin: 0 !important;
-					padding: 0 !important;
-					border: none !important;
-					padding-left:2mm !important;
-					padding-right:2mm !important;
-					
-				}
-				.product-added,.theiaStickySidebar,.product-wrap, #print-receipt{
-					border: none !important;
-					
-				}
-				html{
-					width: 80mm !important;
-					margin: 0 !important;
-					padding: 0 !important;
-				}
-				#print-receipt {
-					padding: 0 !important;
-					margin: 0 !important;
-				}
-				
-				
+			* {
+				font-size: 12px !important;
+
 			}
-			
-		</style>
-		
-	</head>
-	
-	<body class="pos-page" hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
-		<div id="global-loader" >
-			<div class="whirly-loader"> </div>
-		</div>
-		<!-- Main Wrapper -->
-		<div class="main-wrapper pos-three">
 
-			<!-- Header -->
-			<div class="header pos-header">
-			
-				<!-- Logo -->
-				 <div class="header-left active">
-					<a href="index.html" class="logo logo-normal">
-						<img src="{% static '' %}img/logo.svg"  alt="Img">
-					</a>
-					<a href="index.html" class="logo logo-white">
-						<img src="{% static '' %}img/logo-white.svg"  alt="Img">
-					</a>
-					<a href="index.html" class="logo-small">
-						<img src="{% static '' %}img/logo-small.png"  alt="Img">
-					</a>
-				</div>
-				<!-- /Logo -->
-				
-				<a id="mobile_btn" class="mobile_btn d-none" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
+			body {
+				margin: 0;
+				position: relative;
+				width: 80mm !important;
+			}
+
+			#prod_list,
+			.header,
+			.pos-footer {
+				display: none !important;
+			}
+
+			#posCart {
+				width: 80mm !important;
+				display: block !important;
+				border: none !important;
+
+			}
+
+			#printBtn {
+				display: none !important;
+			}
+
+			.modal-content,
+			.modal-dialog {
+				width: 80mm !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				border: none !important;
+
+			}
+
+			.modal-body {
+				width: 80mm !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				border: none !important;
+				padding-left: 2mm !important;
+				padding-right: 2mm !important;
+
+			}
+
+			.product-added,
+			.theiaStickySidebar,
+			.product-wrap,
+			#print-receipt {
+				border: none !important;
+
+			}
+
+			html {
+				width: 80mm !important;
+				margin: 0 !important;
+				padding: 0 !important;
+			}
+
+			#print-receipt {
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+
+		}
+	</style>
+
+</head>
+
+<body class="pos-page" hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
+	{% comment %} <div id="global-loader">
+		<div class="whirly-loader"> </div>
+	</div> {% endcomment %}
+	<!-- Main Wrapper -->
+	<div class="main-wrapper pos-three">
+
+		<!-- Header -->
+		<div class="header pos-header">
+
+			<!-- Logo -->
+			<div class="header-left active">
+				<a href="index.html" class="logo logo-normal">
+					<img src="{% static '' %}img/logo.svg" alt="Img">
 				</a>
-				
-				<!-- Header Menu -->
-				<ul class="nav user-menu">
-
-					<!-- Search -->
-					<li class="nav-item time-nav">
-						<span class="bg-teal text-white d-inline-flex align-items-center">user: {{request.user.username}}</span>
-					</li>
-					<!-- /Search -->
-					
-
-					
-					
-					<li class="nav-item nav-item-box">
-						<a href="#" data-bs-toggle="modal" data-bs-target="#calculator" class="bg-orange border-orange text-white"><i class="ti ti-calculator"></i></a>
-					</li>
-					<li class="nav-item nav-item-box">
-						<a href="javascript:void(0);" id="btnFullscreen" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Maximize" >
-							<i class="ti ti-maximize"></i>
-						</a>
-					</li>
-					
-					<li class="nav-item nav-item-box" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Print Last Reciept">
-						<a href="#"><i class="ti ti-printer"></i></a>
-					</li>
-					
-					<li class="nav-item dropdown has-arrow main-drop profile-nav">
-						<a href="javascript:void(0);" class="nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-info p-0">
-								<span class="user-letter">
-									<img src="{% static '' %}img/profiles/avator1.jpg" alt="Img" class="img-fluid">
-								</span>
-							</span>
-						</a>
-						<div class="dropdown-menu menu-drop-user">
-							<div class="profilename">
-								<div class="profileset">
-									<span class="user-img"><img src="{% static '' %}img/profiles/avator1.jpg" alt="Img">
-										<span class="status online"></span></span>
-									<div class="profilesets">
-										<h6>John Smilga</h6>
-										<h5>Super Admin</h5>
-									</div>
-								</div>
-								<hr class="m-0">
-								<a class="dropdown-item" href="profile.html"><i class="me-2" data-feather="user"></i>My
-									Profile</a>
-								<a class="dropdown-item" href="general-settings.html"><i class="me-2" data-feather="settings"></i>Settings</a>
-								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="signin.html"><img src="{% static '' %}img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<!-- /Header Menu -->
-				
-				<!-- Mobile Menu -->
-				<div class="dropdown mobile-user-menu">
-					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="profile.html">My Profile</a>
-						<a class="dropdown-item" href="general-settings.html">Settings</a>
-						<a class="dropdown-item" href="signin.html">Logout</a>
-					</div>
-				</div>
-				<!-- /Mobile Menu -->
+				<a href="index.html" class="logo logo-white">
+					<img src="{% static '' %}img/logo-white.svg" alt="Img">
+				</a>
+				<a href="index.html" class="logo-small">
+					<img src="{% static '' %}img/logo-small.png" alt="Img">
+				</a>
 			</div>
-			<!-- Header -->
+			<!-- /Logo -->
 
-			
+			<a id="mobile_btn" class="mobile_btn d-none" href="#sidebar">
+				<span class="bar-icon">
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
+			</a>
 
-			
-			
-			<div class="page-wrapper pos-pg-wrapper ms-0" id="content">
-				<div class="content pos-design p-0">
+			<!-- Header Menu -->
+			<ul class="nav user-menu">
 
-					<div class="row align-items-start pos-wrapper">
+				<!-- Search -->
+				<li class="nav-item time-nav">
+					
+				</li>
+				<!-- /Search -->
 
-						<!-- Products -->
-						<div class="col-md-12 col-lg-7 col-xl-8 " id="prod_list">
-							<div class="pos-categories tabs_wrapper pb-0">
-								<div class="card">
-									<div class="row px-2 py-3">
-										<div class="col-12 col-sm-6">
-											<p class="h3">Vente: <span class="h1">{{total|intcomma|default:0}} CDF</span></p>
-										</div>
-										<div class="col-12 col-sm-6">Cash:</div>
+
+
+
+				<li class="nav-item nav-item-box">
+					<a href="#" data-bs-toggle="modal" data-bs-target="#calculator"
+						class="bg-orange border-orange text-white"><i class="ti ti-calculator"></i></a>
+				</li>
+				<li class="nav-item nav-item-box">
+					<a href="javascript:void(0);" id="btnFullscreen" data-bs-toggle="tooltip" data-bs-placement="top"
+						data-bs-title="Maximize">
+						<i class="ti ti-maximize"></i>
+					</a>
+				</li>
+
+				<li class="nav-item nav-item-box" data-bs-toggle="tooltip" data-bs-placement="top"
+					data-bs-title="Print Last Reciept">
+					<a href="#"><i class="ti ti-printer"></i></a>
+				</li>
+
+				<li class="nav-item dropdown has-arrow main-drop profile-nav">
+					<a href="javascript:void(0);" class="nav-link userset" data-bs-toggle="dropdown">
+						<span class="user-info p-0">
+							<span class="user-letter">
+								<img src="{% static '' %}img/profiles/avator1.jpg" alt="Img" class="img-fluid">
+							</span>
+						</span>
+					</a>
+					<div class="dropdown-menu menu-drop-user">
+						<div class="profilename">
+							<div class="profileset">
+								<span class="user-img"><img src="{% static '' %}img/profiles/avator1.jpg" alt="Img">
+									<span class="status online"></span></span>
+								<div class="profilesets">
+									<h6>John Smilga</h6>
+									<h5>Super Admin</h5>
+								</div>
+							</div>
+							<hr class="m-0">
+							<a class="dropdown-item" href="profile.html"><i class="me-2" data-feather="user"></i>My
+								Profile</a>
+							<a class="dropdown-item" href="general-settings.html"><i class="me-2"
+									data-feather="settings"></i>Settings</a>
+							<hr class="m-0">
+							<a class="dropdown-item logout pb-0" href="signin.html"><img
+									src="{% static '' %}img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<!-- /Header Menu -->
+
+			<!-- Mobile Menu -->
+			<div class="dropdown mobile-user-menu">
+				<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+					aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item" href="profile.html">My Profile</a>
+					<a class="dropdown-item" href="general-settings.html">Settings</a>
+					<a class="dropdown-item" href="signin.html">Logout</a>
+				</div>
+			</div>
+			<!-- /Mobile Menu -->
+		</div>
+		<!-- Header -->
+
+
+		<div class="page-wrapper pos-pg-wrapper ms-0" id="content">
+			<div class="content pos-design p-0">
+
+				<div class="row align-items-start pos-wrapper">
+
+					<!-- Products -->
+					<div class="col-md-12 col-lg-7 col-xl-8 " id="prod_list">
+						<div class="pos-categories tabs_wrapper pb-0">
+
+							<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+									<div>
+										<h5 class="mb-1">Welcome,  {{request.user.username}}</h5>
+										<p>{{date}}</p>
+									</div>
+									<div class="d-flex align-items-center gap-3">
+										<div class="input-icon-start pos-search position-relative">
+										<span class="input-icon-addon">
+											<i class="ti ti-search"></i>
+										</span>
+										<form hx-post="{% url 'dashboard:search_view'%}" hx-target="#product-list"
+											hx-swap="outerHTML" hx-trigger="input changed delay:.3s">
+											{% csrf_token %}
+											<input type="text" class="form-control" placeholder="Chercher l'article "
+												name="q">
+										</form>
+									</div>
+										
+										<a  class="btn btn-sm btn-primary"><h3>{{total|default:0|intcomma}} CDF</h1></a>
 									</div>
 								</div>
-								<div class="d-flex align-items-center justify-content-between">
-									<h4 class="mb-3">Categories</h4>
-								</div>
-								<ul class="tabs owl-carousel pos-category"  >
-									<li   class="active" hx-get="{% url 'dashboard:filter_by_all_category' %}" hx-target="#product-list" hx-swap="outerHTML">
-										<a href="javascript:void(0);">
-											<img src="{% static '' %}img/all.webp" alt="Categories">
-										</a>
-										<h6><a href="javascript:void(0);">Toutes</a></h6>
-										<span>{{articles.count}} Article{{ articles.count|pluralize }}</span>
-									</li>
-									{% for cat in categories %}
-										
-										{% if cat.num_product > 0 %}
-										<li  class="" hx-get="{% url 'dashboard:filter_by_category' cat.pk %}" hx-target="#product-list" hx-swap="outerHTML">
-											<a href="javascript:void(0);">
-												<img src="{{cat.img.url}}" alt="Categories">
-											</a>
-											<h6><a href="javascript:void(0);">{{cat.name}}</a></h6>
-											<span>{{cat.num_product}} Article{{ cat.num_product|pluralize }}</span>
-										</li>
-										{% endif %}
-											
-									{% endfor %}
-										
-									
-									
-									
-								</ul>
-								<div class="pos-products">
-									<div class="d-flex align-items-center justify-content-between">
-										<h4 class="mb-3">Articles</h4>
-										<div class="input-icon-start pos-search position-relative mb-3 col-8 col-md-6 col-lg-5 col-xl-4">
-											<span class="input-icon-addon">
-												<i class="ti ti-search"></i>
-											</span>
-											<form hx-post="{% url 'dashboard:search_view'%}" hx-target="#product-list" hx-swap="outerHTML" hx-trigger="input changed delay:.3s">
-												{% csrf_token %}
-													<input type="text" class="form-control" placeholder="Chercher l'article " name="q">
-											</form>
-										</div>
-									</div>
-									<div class="tabs_container">
-										<div  class="tab_content active" data-tab="all">
-											<div class="row mb-5" id="product-list">
-											
-												{% for item in articles %}
-											
-												<div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-													<div class="product-info card" hx-get="{% url 'vente:add_to_cart' item.pk %}" hx-target="#product-order-list" hx-swap="innerHTML" hx-trigger="click">
-														<a href="javascript:void(0);" class="pro-img">
-															<img src="{% static '' %}img/img_placeholder.jpg" alt="Products" class="product-img">
-															<span><i class="ti ti-circle-check-filled"></i></span>
-														</a>
-														<div class="px-2">
-															<h6 class="cat-name"><a href="javascript:void(0);">{{item.categorie}}</a></h6>
-															<h6 class="product-name"><a href="javascript:void(0);">{{item.libelle}}</a></h6>
-														</div>
-														<div class="d-flex align-items-center justify-content-between price px-2 py-2">
-															<span>{{item.qtyStock}} Pc{{articles.count|pluralize}}</span>
-															<p>{{item.price}} CDF</p>
-														</div>
+
+							<ul class="tabs owl-carousel pos-category3 mb-4">
+								<li id="all" class="active" hx-get="{% url 'dashboard:filter_by_all_category' %}"
+									hx-target="#product-list" hx-swap="outerHTML">
+									<a>
+										<img src=" {% static '' %}img/categories/category-01.svg" alt="Categories">
+									</a>
+									<h6><a href="javascript:void(0);">Toutes</a></h6>
+								</li>
+								{% for cat in categories %}
+
+								{% if cat.num_product > 0 %}
+
+								<li hx-get="{% url 'dashboard:filter_by_category' cat.pk %}" hx-target="#product-list"
+									hx-swap="outerHTML">
+									<a href="javascript:void(0);">
+										<img src="{{cat.img.url}}" alt="Categories">
+									</a>
+									<h6><a href="javascript:void(0);">{{cat.name}}</a></h6>
+								</li>
+								{% endif %}
+
+								{% endfor %}
+
+							</ul>
+							<div class="pos-products">
+								
+								<div class="tabs_container">
+									<div class="tab_content active" data-tab="all">
+										<div class="row mb-5" id="product-list">
+
+											{% for item in articles %}
+
+											<div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+												<div class="product-info card"
+													hx-get="{% url 'vente:add_to_cart' item.pk %}"
+													hx-target="#product-order-list" hx-swap="innerHTML"
+													hx-trigger="click">
+													<a href="javascript:void(0);" class="pro-img">
+														<img src="{% static '' %}img/img_placeholder.jpg" alt="Products"
+															class="product-img">
+														<span><i class="ti ti-circle-check-filled"></i></span>
+													</a>
+													<div class="px-2">
+														<h6 class="cat-name"><a
+																href="javascript:void(0);">{{item.categorie}}</a></h6>
+														<h6 class="product-name"><a
+																href="javascript:void(0);">{{item.libelle}}</a></h6>
+													</div>
+													<div
+														class="d-flex align-items-center justify-content-between price px-2 py-2">
+														<span>{{item.qtyStock}} Pc{{articles.count|pluralize}}</span>
+														<p>{{item.price}} CDF</p>
 													</div>
 												</div>
-											
-											
-												{% endfor %}
-											
-											
 											</div>
+
+
+											{% endfor %}
+
+
 										</div>
-										<
-										
 									</div>
+									< </div>
 								</div>
 							</div>
 						</div>
@@ -348,23 +369,25 @@
 						<div class="col-md-12 col-lg-5 col-xl-4 ps-0 theiaStickySidebar">
 							<aside class="product-order-list" id="product-order-list" id="prod_list">
 								<div class="customer-info">
-                                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                                        <div class="d-flex align-items-center">
-                                            <h4 class="mb-0">Nouvelle facture</h4>
-                                            <span class="badge badge-purple badge-xs fs-10 fw-medium ms-2">{{num_facture}}</span>
-                                        </div>
-                                        
-                                    </div>
-									<input type="text" class="form-control" placeholder="Nom du client">
+									<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+										<div class="d-flex align-items-center">
+											<h4 class="mb-0">Nouvelle facture</h4>
+											<span
+												class="badge badge-purple badge-xs fs-10 fw-medium ms-2">{{num_facture}}</span>
+										</div>
+
+									</div>
+
 								</div>
 								<div class="product-added block-section">
 									<div class="d-flex align-items-center justify-content-between gap-3 mb-3">
 										<h5 class="d-flex align-items-center mb-0">Order Details</h5>
-										<div class="badge bg-light text-gray-9 fs-12 fw-semibold py-2 border rounded">Items : <span class="text-teal">{{total_items}}</span></div>
+										<div class="badge bg-light text-gray-9 fs-12 fw-semibold py-2 border rounded">
+											Items : <span class="text-teal">{{total_items|default:"0"}}</span></div>
 									</div>
 									<div class="product-wrap">
-										
-										
+
+
 										{% if items.count > 0 %}
 										<div class="product-list border-0 p-0">
 											<div class="table-responsive">
@@ -378,33 +401,47 @@
 														</tr>
 													</thead>
 													<tbody>
-														
+
 														{% for item in items %}
 														<tr>
 															<td>
 																<div class="d-flex align-items-center mb-1">
-																	<h6 class="fs-16 fw-medium"><a href="#" data-bs-toggle="modal" data-bs-target="#products">{{item.product.libelle}}</a></h6>
-																	
+																	<h6 class="fs-16 fw-medium"><a href="#"
+																			data-bs-toggle="modal"
+																			data-bs-target="#products">{{item.product.libelle}}</a>
+																	</h6>
+
 																</div>
 																Prix : {{item.prix}} CDF
 															</td>
 															<td>
 																<div class="qty-item m-0">
-																	<a href="javascript:void(0);" class="dec d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" title="minus"><i data-feather="minus-circle" class="feather-14"></i></a>
-																	<input type="text" class="form-control text-center" name="qty" value="{{item.qty}}" readonly>
-																	<a href="javascript:void(0);" class="inc d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" title="plus"><i data-feather="plus-circle" class="feather-14"></i></a>
+																	<a href="javascript:void(0);"
+																		class="dec d-flex justify-content-center align-items-center"
+																		data-bs-toggle="tooltip" data-bs-placement="top"
+																		title="minus"><i data-feather="minus-circle"
+																			class="feather-14"></i></a>
+																	<input type="text" class="form-control text-center"
+																		name="qty" value="{{item.qty}}" readonly>
+																	<a href="javascript:void(0);"
+																		class="inc d-flex justify-content-center align-items-center"
+																		data-bs-toggle="tooltip" data-bs-placement="top"
+																		title="plus"><i data-feather="plus-circle"
+																			class="feather-14"></i></a>
 																</div>
 															</td>
 															<td class="fw-bold">{{item.prix}} CDF</td>
 															<td class="text-end">
-																<a class="btn-icon delete-icon" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete">
+																<a class="btn-icon delete-icon"
+																	href="javascript:void(0);" data-bs-toggle="modal"
+																	data-bs-target="#delete">
 																	<i class="ti ti-trash"></i>
 																</a>
 															</td>
 														</tr>
 														{% endfor %}
-															
-														
+
+
 													</tbody>
 												</table>
 											</div>
@@ -417,24 +454,98 @@
 											<p class="fw-bold">Pas d'articles dans le pagnier</p>
 										</div>
 										{% endif %}
-																					
+
 									</div>
 								</div>
-								
-								
+
+
 							</aside>
 						</div>
 						<!-- /Order Details -->
 
-                        <div class="pos-footer bg-white p-3 border-top">
-                            <div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
-								
-                                <a href="javascript:void(0);" class="btn btn-cyan d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#cash"><i class="ti ti-cash-banknote me-2"></i>Cash du jour</a>
+						<div class="pos-footer bg-white p-3 border-top">
+							<div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
 
-                                <a href="javascript:void(0);" class="btn btn-danger d-inline-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#depenses"><i class="ti ti-refresh-dot me-2"></i>Dépenses</a>
-                                <a href="javascript:void(0);" class="btn btn-purple btn-md d-inline-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#hold-order"><i class="ti ti-player-pause me-2"></i>Clôturer la vente</a>
-                            </div>
-                        </div>
+								<a href="javascript:void(0);"
+									class="btn btn-cyan d-flex align-items-center justify-content-center"
+									data-bs-toggle="modal" data-bs-target="#cash"><i
+										class="ti ti-cash-banknote me-2"></i>Cash du jour</a>
+
+								<a href="javascript:void(0);"
+									class="btn btn-danger d-inline-flex align-items-center justify-content-center"
+									data-bs-toggle="modal" data-bs-target="#depenses"><i
+										class="ti ti-refresh-dot me-2"></i>Dépenses</a>
+								<a href="javascript:void(0);"
+									class="btn btn-purple btn-md d-inline-flex align-items-center justify-content-center"
+									data-bs-toggle="modal" data-bs-target="#hold-order"><i
+										class="ti ti-player-pause me-2"></i>Clôturer la vente</a>
+							</div>
+						</div>
+						{% if not cash.estConfirme %}
+						<div class="modal fade pos-modal show" id="cash" tabindex="-1"
+							style="display: block; padding-left: 0px;" aria-modal="true" role="dialog">
+							<div class="modal-dialog modal-lg modal-dialog-centered " role="document">
+								<div class="modal-content bg-soft-primary">
+									<div class="modal-header">
+										<h5 class="modal-title">CONFIRMATION DU CASH</h5>
+
+									</div>
+									<div class="modal-body ">
+										<div class="tabs-sets">
+
+											<div class="tab-content">
+												<div class="tab-pane fade show active" id="onhold" role="tabpanel"
+													aria-labelledby="onhold-tab">
+
+													<div class="order-body">
+														<div class="card bg-light mb-3">
+															<div class="card-body">
+																<span class="badge bg-dark fs-12 mb-4">Cash du
+																	jour</span>
+																<div class="row g-3">
+																	<div class="col-md-6">
+																		<p class="fs-24 mb-1"><span
+																				class="fs-14 fw-bold text-gray-9">Franc
+																				:</span> {{cash.franc}} CDF</p>
+
+																	</div>
+																	<div class="col-md-6">
+																		<p class="fs-24"><span
+																				class="fs-14 fw-bold text-gray-9">Dollars
+																				:</span> ${{cash.dollar}}</p>
+																	</div>
+																</div>
+
+																<div
+																	class="bg-danger-transparent p-3 rounded text-center my-3">
+																	<p class="text-danger fw-medium">Veuillez confirmer
+																		le montant du cash ou informez le boss en cas
+																		d'incoherence !</p>
+																</div>
+																<div
+																	class="d-flex align-items-center justify-content-center flex-wrap gap-2">
+																	<a hx-get="{% url 'cash:cash_confirmation' %}"
+																		hx-target="#content"
+																		class="btn btn-md btn-orange">Confirmer</a>
+
+																</div>
+
+
+
+															</div>
+														</div>
+
+													</div>
+												</div>
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endif %}
 
 					</div>
 				</div>
@@ -453,367 +564,431 @@
 		</div> -->
 		<!-- /Print Receipt -->
 
+
+
+
+		<!-- cash -->
+		<div class="modal fade pos-modal" id="cash" tabindex="-1" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">CASH DU JOUR</h5>
+						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body" id="cash_contant">
+						<div class="tabs-sets">
+							<ul class="nav nav-tabs" id="myTabs" role="tablist">
+								<li class="nav-item" role="presentation">
+									<button class="nav-link active" id="onhold-tab" data-bs-toggle="tab"
+										data-bs-target="#onhold" type="button" aria-controls="onhold"
+										aria-selected="true" role="tab">Cash</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="unpaid-tab" data-bs-toggle="tab"
+										data-bs-target="#unpaid" type="button" aria-controls="unpaid"
+										aria-selected="false" role="tab" tabindex="-1">Entrées</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="paid-tab" data-bs-toggle="tab" data-bs-target="#paid"
+										type="button" aria-controls="paid" aria-selected="false" role="tab"
+										tabindex="-1">Sortie</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="change-tab" data-bs-toggle="tab"
+										data-bs-target="#change" type="button" aria-controls="change"
+										aria-selected="false" role="tab" tabindex="-1">Change</button>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane fade show active" id="onhold" role="tabpanel"
+									aria-labelledby="onhold-tab">
+									{% if messages %}
+									{% for message in messages %}
+									<div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
+										{{ message }}
+										<button type="button" class="btn-close" data-bs-dismiss="alert"
+											aria-label="Close"><i class="fas fa-xmark"></i></button>
+									</div>
+									{% endfor %}
+									{% endif %}
+									<div class="order-body">
+										<div class="card bg-light mb-3">
+											<div class="card-body">
+												<span class="badge bg-dark fs-12 mb-2">Cash du jour</span>
+												<div class="row g-3">
+													<div class="col-md-6">
+														<p class="fs-15 mb-1"><span
+																class="fs-14 fw-bold text-gray-9">Franc :</span>
+															{{cash.franc|default:0}} CDF</p>
+														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Dollars
+																:</span> ${{cash.dollar|default:0}}</p>
+													</div>
+													<div class="col-md-6">
+														<p class="fs-15 mb-1"><span
+																class="fs-14 fw-bold text-gray-9">Utilisateur :</span>
+															{{request.user.username}}</p>
+														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date
+																:</span>{{cash.date}}</p>
+													</div>
+												</div>
+												{% if not cash.estConfirme %}
+												<div class="bg-danger-transparent p-3 rounded text-center my-3">
+													<p class="text-danger fw-medium">Veuillez confirmer le montant du
+														cash ou informez le boss en cas d'incoherence !</p>
+												</div>
+												<div
+													class="d-flex align-items-center justify-content-center flex-wrap gap-2">
+													<a href="javascript:void(0);"
+														class="btn btn-md btn-orange">Confirmer</a>
+
+												</div>
+												{% endif %}
+
+
+											</div>
+										</div>
+										<div class="card bg-light mb-3">
+											<div class="card-body">
+												<span class="badge bg-dark fs-12 mb-2">Entrées</span>
+												<div class="mb-3">
+													<div class="row g-3">
+														<div class="col-md-6">
+															<p class="fs-15 mb-1"><span
+																	class="fs-14 fw-bold text-gray-9">Total Franc
+																	:</span>{{total_entree_franc|intcomma|default:0}}
+																CDF</p>
+
+														</div>
+														<div class="col-md-6">
+															<p class="fs-15 mb-1"><span
+																	class="fs-14 fw-bold text-gray-9">Total Dollars
+																	:</span>{{total_entree_dollar|intcomma|default:0}}$
+															</p>
+
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card bg-light mb-3">
+											<div class="card-body">
+												<span class="badge bg-dark fs-12 mb-2">Sorties</span>
+												<div class="mb-3">
+													<div class="row g-3">
+														<div class="col-md-6">
+															<p class="fs-15 mb-1"><span
+																	class="fs-14 fw-bold text-gray-9">Total Franc
+																	:</span>{{total_sortie_franc|intcomma|default:0}}
+																CDF</p>
+
+														</div>
+														<div class="col-md-6">
+															<p class="fs-15 mb-1"><span
+																	class="fs-14 fw-bold text-gray-9">Total Dollars
+																	:</span>{{total_sortie_dollar|intcomma|default:0}}$
+															</p>
+
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<!-- ENTREE CASH  -->
+								<div class="tab-pane fade" id="unpaid" role="tabpanel" aria-labelledby="unpaid-tab">
+									<div class="" id="entree_response">
+										<div class="card bg-light mb-3">
+											<div class="card-body ">
+												<form hx-post="{% url 'cash:entree_cash' %}" hx-target="#cash_contant">
+													{% csrf_token %}
+													<h5 class="mb-2">Nouvelle entrée cash</h5>
+													<div class="row">
+														<div class="col-6 mb-3">
+															<input type="number" class="form-control"
+																placeholder="Montant en dollar" name="dollar">
+														</div>
+														<div class="col-6 mb-3">
+															<input type="number" class="form-control"
+																placeholder="Montant en franc" name="franc">
+														</div>
+														<div class="col-9 mb-3">
+															<input type="text" class="form-control"
+																placeholder="Description" name="description" required>
+														</div>
+														<div class="col-3 mb-3">
+															<button type="submit"
+																class="btn btn-md btn-orange w-100">Ajouter</button>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+
+										<div class="table-responsive">
+											<table class="table mb-0">
+												<thead>
+													<tr>
+														<th>Dollar</th>
+														<th>Franc</th>
+														<th>Description</th>
+														<th>Statut</th>
+														<th>action</th>
+													</tr>
+												</thead>
+												<tbody>
+
+													{% for item in entrees %}
+													<tr>
+														<td>{{item.dollar}}</td>
+														<td>{{item.franc}}</td>
+														<td>{{item.description}}</td>
+														<td>
+															{% if item.estConfirme %}
+															<span class="badge bg-success fw-medium fs-10">Validé</span>
+															{% else %}
+															<span class="badge bg-danger fw-medium fs-10">Non
+																validé</span>
+															{% endif %}
+														</td>
+														<td>
+															<div class="edit-delete-action">
+																<a href="javascript:void(0);" class=""
+																	hx-get="{% url 'cash:delete_entree' item.id %}"
+																	hx-target="#cash_contant" hx-swap="outerHTML"
+																	hx-confirm="Voulez-vous vraiment supprimer cette entree ?">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		height="24" viewBox="0 0 24 24" fill="none"
+																		stroke="currentColor" stroke-width="2"
+																		stroke-linecap="round" stroke-linejoin="round"
+																		class="feather feather-trash-2">
+																		<polyline points="3 6 5 6 21 6"></polyline>
+																		<path
+																			d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+																		</path>
+																		<line x1="10" y1="11" x2="10" y2="17"></line>
+																		<line x1="14" y1="11" x2="14" y2="17"></line>
+																	</svg></a>
+															</div>
+														</td>
+													</tr>
+													{% endfor %}
+
+
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="paid" role="tabpanel" aria-labelledby="paid-tab">
+									<div class="" id="sortie_response">
+										{% if messages %}
+										{% for message in messages %}
+										<div
+											class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
+											{{ message }}
+											<button type="button" class="btn-close" data-bs-dismiss="alert"
+												aria-label="Close"><i class="fas fa-xmark"></i></button>
+										</div>
+										{% endfor %}
+										{% endif %}
+										<div class="card bg-light mb-3">
+											<div class="card-body ">
+												<form hx-post="{% url 'cash:sortie_cash' %}" hx-target="#cash_contant">
+													{% csrf_token %}
+													<h5 class="mb-2">Nouvelle sortie cash</h5>
+													<div class="row">
+														<div class="col-6 mb-3">
+															<input type="number" class="form-control"
+																placeholder="Montant en dollar" name="dollar">
+														</div>
+														<div class="col-6 mb-3">
+															<input type="number" class="form-control"
+																placeholder="Montant en franc" name="franc">
+														</div>
+														<div class="col-9 mb-3">
+															<input type="text" class="form-control"
+																placeholder="Description" name="description" required>
+														</div>
+														<div class="col-3 mb-3">
+															<button type="submit"
+																class="btn btn-md btn-orange w-100">Ajouter</button>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+
+										<div class="table-responsive">
+											<table class="table mb-0">
+												<thead>
+													<tr>
+														<th>Dollar</th>
+														<th>Franc</th>
+														<th>Description</th>
+														<th>Statut</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+
+													{% for item in sorties %}
+													<tr>
+														<td>{{item.dollar}}</td>
+														<td>{{item.franc}}</td>
+														<td>{{item.description}}</td>
+														<td>
+															{% if item.estConfirme %}
+															<span class="badge bg-success fw-medium fs-10">Validé</span>
+															{% else %}
+															<span class="badge bg-danger fw-medium fs-10">Non
+																validé</span>
+															{% endif %}
+														</td>
+														<td>
+															<div class="edit-delete-action">
+																<a href="javascript:void(0);" class=""
+																	hx-get="{% url 'cash:delete_sortie' item.id %}"
+																	hx-target="#cash_contant" hx-swap="outerHTML"
+																	hx-confirm="Voulez-vous vraiment supprimer cette sortie ?">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		height="24" viewBox="0 0 24 24" fill="none"
+																		stroke="currentColor" stroke-width="2"
+																		stroke-linecap="round" stroke-linejoin="round"
+																		class="feather feather-trash-2">
+																		<polyline points="3 6 5 6 21 6"></polyline>
+																		<path
+																			d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+																		</path>
+																		<line x1="10" y1="11" x2="10" y2="17"></line>
+																		<line x1="14" y1="11" x2="14" y2="17"></line>
+																	</svg></a>
+															</div>
+														</td>
+													</tr>
+													{% endfor %}
+
+
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="change" role="tabpanel" aria-labelledby="change-tab">
+									<div class="card bg-light mb-3">
+
+										<div class="card-body ">
+											<form hx-post="{% url 'cash:change_devise' %}" hx-target="#cash_contant">
+												{% csrf_token %}
+												<h5 class="mb-2">Change devise</h5>
+												<div class="row">
+
+													<div class="col-12 mb-3">
+														<input type="number" class="form-control"
+															placeholder="Montant en dollar pour le change"
+															name="devise">
+													</div>
+
+													<div class="col-12 mb-3">
+														<button type="submit" class="btn  btn-orange w-100">Changer
+															devise</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- cash -->
 		<!-- depenses -->
 		<div class="modal fade pos-modal" id="depenses" tabindex="-1" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-md modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						 <h5 class="modal-title">Orders</h5>
+						<h5 class="modal-title">Dépenses du jour</h5>
 						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<div class="tabs-sets">
-							<ul class="nav nav-tabs" id="myTabs" role="tablist">
-								<li class="nav-item" role="presentation">
-								  <button class="nav-link active" id="onhold-tab" data-bs-toggle="tab" data-bs-target="#onhold" type="button" aria-controls="onhold" aria-selected="true" role="tab">Onhold</button>
-								</li>
-								<li class="nav-item" role="presentation">
-								  <button class="nav-link" id="unpaid-tab" data-bs-toggle="tab" data-bs-target="#unpaid" type="button" aria-controls="unpaid" aria-selected="false" role="tab" tabindex="-1">Unpaid</button>
-								</li>
-								<li class="nav-item" role="presentation">
-								  <button class="nav-link" id="paid-tab" data-bs-toggle="tab" data-bs-target="#paid" type="button" aria-controls="paid" aria-selected="false" role="tab" tabindex="-1">Paid</button>
-								</li>
-							  </ul>
-							  <div class="tab-content">
-								<div class="tab-pane fade show active" id="onhold" role="tabpanel" aria-labelledby="onhold-tab">
-									<div class="input-icon-start pos-search position-relative mb-3">
-										<span class="input-icon-addon">
-											<i class="ti ti-search"></i>
-										</span>
-										<input type="text" class="form-control" placeholder="Search Product">
-									</div>
-									<div class="order-body">
-										<div class="card bg-light mb-3">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #45698</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $900</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Botsford</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-												<div class="bg-info-transparent p-1 rounded text-center my-3">
-													<p class="text-info fw-medium">Customer need to recheck the product once</p>
-												</div>
-												<div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
-													<a href="javascript:void(0);" class="btn btn-md btn-orange">Open Order</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-teal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#products">View Products</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-indigo">Print</a>
-												</div>
-											</div>	
+						<div class="card bg-light mb-3">
+							<div class="card-body ">
+								<form action="">
+									<h5 class="mb-2">Nouvelle entrée cash</h5>
+									<div class="row">
+										<div class="col-6 mb-3">
+											<input type="number" class="form-control" placeholder="Montant en dollar"
+												name="dollar">
 										</div>
-										<div class="card bg-light mb-0">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #666659</span>
-												<div class="mb-3">
-													<div class="row g-3">
-														<div class="col-md-6">
-															<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-															<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $900</p>
-														</div>
-														<div class="col-md-6">
-															<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Botsford</p>
-															<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-														</div>
-													</div>
-												</div>
-											</div>	
+										<div class="col-6 mb-3">
+											<input type="number" class="form-control" placeholder="Montant en franc"
+												name="franc">
+										</div>
+										<div class="col-9 mb-3">
+											<input type="text" class="form-control" placeholder="Description"
+												name="description">
+										</div>
+										<div class="col-3 mb-3">
+											<button type="submit" class="btn btn-md btn-orange w-100">Ajouter</button>
 										</div>
 									</div>
-								</div>
-								<div class="tab-pane fade" id="unpaid" role="tabpanel" aria-labelledby="unpaid-tab">
-									<div class="input-icon-start pos-search position-relative mb-3">
-										<span class="input-icon-addon">
-											<i class="ti ti-search"></i>
-										</span>
-										<input type="text" class="form-control" placeholder="Search Product">
-									</div>
-									<div class="order-body">
-										<div class="card bg-light mb-3">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #45698</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $900</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Anastasia</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-												<div class="bg-info-transparent p-1 rounded text-center my-3">
-													<p class="text-info fw-medium">Customer need to recheck the product once</p>
-												</div>
-												<div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
-													<a href="javascript:void(0);" class="btn btn-md btn-orange">Open Order</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-teal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#products">View Products</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-indigo">Print</a>
-												</div>
-											</div>	
-										</div>
-										<div class="card bg-light mb-0">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #666659</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $900</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Lucia</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-											</div>	
-										</div>
-									</div>
-								</div>
-								<div class="tab-pane fade" id="paid" role="tabpanel" aria-labelledby="paid-tab">
-									<div class="input-icon-start pos-search position-relative mb-3">
-										<span class="input-icon-addon">
-											<i class="ti ti-search"></i>
-										</span>
-										<input type="text" class="form-control" placeholder="Search Product">
-									</div>
-									<div class="order-body">
-										<div class="card bg-light mb-3">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #45698</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $1000</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Hugo</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-												<div class="bg-info-transparent p-1 rounded text-center my-3">
-													<p class="text-info fw-medium">Customer need to recheck the product once</p>
-												</div>
-												<div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
-													<a href="javascript:void(0);" class="btn btn-md btn-orange">Open Order</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-teal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#products">View Products</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-indigo">Print</a>
-												</div>
-											</div>	
-										</div>
-										<div class="card bg-light mb-0">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #666659</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $9100</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Antonio</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 23 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-											</div>	
-										</div>
-									</div>
-								</div>
-							</div>	
+								</form>
+							</div>
 						</div>
+
+						<div class="table-responsive">
+							<table class="table mb-0">
+								<thead>
+									<tr>
+										<th>Firstname</th>
+										<th>Lastname</th>
+										<th>Email</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>John</td>
+										<td>Doe</td>
+										<td>john@example.com</td>
+									</tr>
+									<tr>
+										<td>Mary</td>
+										<td>Moe</td>
+										<td>mary@example.com</td>
+									</tr>
+									<tr>
+										<td>July</td>
+										<td>Dooley</td>
+										<td>july@example.com</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+
 					</div>
 				</div>
 			</div>
 		</div>
-		 <!-- depense -->
-
-		 <!-- cash -->
-		 <div class="modal fade pos-modal" id="cash" tabindex="-1" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-md modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						 <h5 class="modal-title">CASH DU JOUR</h5>
-						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="tabs-sets">
-							<ul class="nav nav-tabs" id="myTabs" role="tablist">
-								<li class="nav-item" role="presentation">
-								  <button class="nav-link active" id="onhold-tab" data-bs-toggle="tab" data-bs-target="#onhold" type="button" aria-controls="onhold" aria-selected="true" role="tab">Onhold</button>
-								</li>
-								<li class="nav-item" role="presentation">
-								  <button class="nav-link" id="unpaid-tab" data-bs-toggle="tab" data-bs-target="#unpaid" type="button" aria-controls="unpaid" aria-selected="false" role="tab" tabindex="-1">Unpaid</button>
-								</li>
-								<li class="nav-item" role="presentation">
-								  <button class="nav-link" id="paid-tab" data-bs-toggle="tab" data-bs-target="#paid" type="button" aria-controls="paid" aria-selected="false" role="tab" tabindex="-1">Paid</button>
-								</li>
-							  </ul>
-							  <div class="tab-content">
-								<div class="tab-pane fade show active" id="onhold" role="tabpanel" aria-labelledby="onhold-tab">
-									<div class="input-icon-start pos-search position-relative mb-3">
-										<span class="input-icon-addon">
-											<i class="ti ti-search"></i>
-										</span>
-										<input type="text" class="form-control" placeholder="Search Product">
-									</div>
-									<div class="order-body">
-										<div class="card bg-light mb-3">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #45698</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $900</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Botsford</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-												<div class="bg-info-transparent p-1 rounded text-center my-3">
-													<p class="text-info fw-medium">Customer need to recheck the product once</p>
-												</div>
-												<div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
-													<a href="javascript:void(0);" class="btn btn-md btn-orange">Open Order</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-teal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#products">View Products</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-indigo">Print</a>
-												</div>
-											</div>	
-										</div>
-										<div class="card bg-light mb-0">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #666659</span>
-												<div class="mb-3">
-													<div class="row g-3">
-														<div class="col-md-6">
-															<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-															<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $900</p>
-														</div>
-														<div class="col-md-6">
-															<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Botsford</p>
-															<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-														</div>
-													</div>
-												</div>
-											</div>	
-										</div>
-									</div>
-								</div>
-								<div class="tab-pane fade" id="unpaid" role="tabpanel" aria-labelledby="unpaid-tab">
-									<div class="input-icon-start pos-search position-relative mb-3">
-										<span class="input-icon-addon">
-											<i class="ti ti-search"></i>
-										</span>
-										<input type="text" class="form-control" placeholder="Search Product">
-									</div>
-									<div class="order-body">
-										<div class="card bg-light mb-3">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #45698</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $900</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Anastasia</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-												<div class="bg-info-transparent p-1 rounded text-center my-3">
-													<p class="text-info fw-medium">Customer need to recheck the product once</p>
-												</div>
-												<div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
-													<a href="javascript:void(0);" class="btn btn-md btn-orange">Open Order</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-teal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#products">View Products</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-indigo">Print</a>
-												</div>
-											</div>	
-										</div>
-										<div class="card bg-light mb-0">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #666659</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $900</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Lucia</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-											</div>	
-										</div>
-									</div>
-								</div>
-								<div class="tab-pane fade" id="paid" role="tabpanel" aria-labelledby="paid-tab">
-									<div class="input-icon-start pos-search position-relative mb-3">
-										<span class="input-icon-addon">
-											<i class="ti ti-search"></i>
-										</span>
-										<input type="text" class="form-control" placeholder="Search Product">
-									</div>
-									<div class="order-body">
-										<div class="card bg-light mb-3">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #45698</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $1000</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Hugo</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 24 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-												<div class="bg-info-transparent p-1 rounded text-center my-3">
-													<p class="text-info fw-medium">Customer need to recheck the product once</p>
-												</div>
-												<div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
-													<a href="javascript:void(0);" class="btn btn-md btn-orange">Open Order</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-teal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#products">View Products</a>
-													<a href="javascript:void(0);" class="btn btn-md btn-indigo">Print</a>
-												</div>
-											</div>	
-										</div>
-										<div class="card bg-light mb-0">
-											<div class="card-body">
-												<span class="badge bg-dark fs-12 mb-2">Order ID : #666659</span>
-												<div class="row g-3">
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Cashier :</span> admin</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Total :</span> $9100</p>
-													</div>
-													<div class="col-md-6">
-														<p class="fs-15 mb-1"><span class="fs-14 fw-bold text-gray-9">Customer :</span>  Antonio</p>
-														<p class="fs-15"><span class="fs-14 fw-bold text-gray-9">Date :</span> 23 Dec 2024 13:39:11</p>
-													</div>
-												</div>
-											</div>	
-										</div>
-									</div>
-								</div>
-							</div>	
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		 <!-- cash -->
-
-		<div class="modal fade" id="create" tabindex="-1" aria-labelledby="create"  aria-hidden="true">
+		<!-- depense -->
+		<div class="modal fade" id="create" tabindex="-1" aria-labelledby="create" aria-hidden="true">
 			<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" >Create</h5>
+						<h5 class="modal-title">Create</h5>
 						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
@@ -823,7 +998,8 @@
 							<div class="row">
 								<div class="col-lg-6 col-sm-12 col-12">
 									<div class="mb-3">
-										<label class="form-label">Customer Name <span class="text-danger">*</span></label>
+										<label class="form-label">Customer Name <span
+												class="text-danger">*</span></label>
 										<input type="text" class="form-control">
 									</div>
 								</div>
@@ -860,10 +1036,11 @@
 							</div>
 						</div>
 						<div class="modal-footer d-flex justify-content-end gap-2 flex-wrap">
-							<button type="button" class="btn btn-md btn-secondary" data-bs-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-md btn-secondary"
+								data-bs-dismiss="modal">Cancel</button>
 							<button type="submit" class="btn btn-md btn-primary">Submit</button>
 						</div>
-					</form>					
+					</form>
 				</div>
 			</div>
 		</div>
@@ -877,31 +1054,34 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">Rémise </h5>
-					   <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-						   <span aria-hidden="true">×</span>
-					   </button>
-				   </div>
-				   <form hx-post="{% url 'vente:discount' %}" hx-target="#product-order-list">
+						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<form hx-post="{% url 'vente:discount' %}" hx-target="#product-order-list">
 						{% csrf_token %}
 						<div class="modal-body pb-1">
-							
+
 							<div class="mb-3">
 								<label class="form-label">Montant de rémise <span class="text-danger">*</span></label>
-								<input type="number" class="form-control" name="discount" id="discount" placeholder="0.00" >
+								<input type="number" class="form-control" name="discount" id="discount"
+									placeholder="0.00">
 							</div>
 						</div>
 						<div class="modal-footer d-flex justify-content-end flex-wrap gap-2">
-							<button type="button" class="btn btn-md btn-secondary" data-bs-dismiss="modal">Annuler</button>
-							<button type="submit" class="btn btn-md btn-primary" data-bs-dismiss="modal">Accorder</button>
+							<button type="button" class="btn btn-md btn-secondary"
+								data-bs-dismiss="modal">Annuler</button>
+							<button type="submit" class="btn btn-md btn-primary"
+								data-bs-dismiss="modal">Accorder</button>
 						</div>
-				   </form>
+					</form>
 				</div>
 			</div>
 		</div>
 		<!-- /Discount -->
 
-		 <!-- Calculator -->
-		<div class="modal fade pos-modal" id="calculator" tabindex="-1"  aria-hidden="true">
+		<!-- Calculator -->
+		<div class="modal fade pos-modal" id="calculator" tabindex="-1" aria-hidden="true">
 			<div class="modal-dialog modal-md modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-body p-0">
@@ -912,41 +1092,42 @@
 									<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">×</span>
 									</button>
-								</div>							
+								</div>
 								<div>
 									<input class="input" type="text" placeholder="0" readonly>
 								</div>
 							</div>
 							<div class="calculator-body d-flex justify-content-between">
 								<div class="text-center">
-									<button class="btn btn-clear" onclick="if (!window.__cfRLUnblockHandlers) return false; clr()" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">C</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('7')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">7</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('4')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">4</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('1')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">1</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis(',')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">,</button>
+									<button class="btn btn-clear" onclick="clr()">C</button>
+									<button class="btn btn-number" onclick="dis('7')">7</button>
+									<button class="btn btn-number" onclick="dis('4')">4</button>
+									<button class="btn btn-number" onclick="dis('1')">1</button>
+									<button class="btn btn-number" onclick="dis('0')">0</button>
 								</div>
 								<div class="text-center">
-									<button class="btn btn-expression" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('https://dreamspos.dreamstechnologies.com/')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">÷</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('8')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">8</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('5')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">5</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('2')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">2</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('00')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">00</button>									
+									<button class="btn btn-expression" onclick="dis('/')">÷</button>
+									<button class="btn btn-number" onclick="dis('8')">8</button>
+									<button class="btn btn-number" onclick="dis('5')">5</button>
+									<button class="btn btn-number" onclick="dis('2')">2</button>
+									<button class="btn btn-number" onclick="dis('00')">00</button>
 								</div>
 								<div class="text-center">
-									<button class="btn btn-expression" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('%')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">%</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('9')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">9</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('6')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">6</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('3')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">3</button>
-									<button class="btn btn-number" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('.')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">.</button>									
+									<button class="btn btn-expression" onclick="  dis('%')">%</button>
+									<button class="btn btn-number" onclick="  dis('9')">9</button>
+									<button class="btn btn-number" onclick="  dis('6')">6</button>
+									<button class="btn btn-number" onclick="  dis('3')">3</button>
+									<button class="btn btn-number" onclick="  dis('.')">.</button>
 								</div>
 								<div class="text-center">
-									<button class="btn btn-clear" onclick="if (!window.__cfRLUnblockHandlers) return false; back()" data-cf-modified-f1e5e666f5672a773cbc3ccf-=""><i class="ti ti-backspace"></i></button>
-									<button class="btn btn-expression" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('*')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">x</button>
-									<button class="btn btn-expression" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('-')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">-</button>
-									<button class="btn btn-expression" onclick="if (!window.__cfRLUnblockHandlers) return false; dis('+')" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">+</button>
-									<button class="btn btn-clear" onclick="if (!window.__cfRLUnblockHandlers) return false; solve()" data-cf-modified-f1e5e666f5672a773cbc3ccf-="">=</button>									
+									<button class="btn btn-clear" onclick="  back()"><i
+											class="ti ti-backspace"></i></button>
+									<button class="btn btn-expression" onclick="  dis('*')">x</button>
+									<button class="btn btn-expression" onclick="  dis('-')">-</button>
+									<button class="btn btn-expression" onclick="  dis('+')">+</button>
+									<button class="btn btn-clear" onclick="  solve()">=</button>
 								</div>
-							</div>							
+							</div>
 						</div>
 					</div>
 				</div>
@@ -954,30 +1135,7 @@
 		</div>
 		<!-- /Calculator -->
 
-		<!-- Delete Product -->
-		<div class="modal fade modal-default" id="delete" aria-labelledby="payment-completed">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-body p-0">
-						<div class="success-wrap text-center">
-							<form action="https://dreamspos.dreamstechnologies.com/html/template/pos-4.html">
-								<div class="icon-success bg-danger-transparent text-danger mb-2">
-									<i class="ti ti-trash"></i>
-								</div>
-								<h3 class="mb-2">Are you Sure!</h3>
-								<p class="fs-16 mb-3">The current order will be deleted as no payment has been made so far.
-								</p>
-								<div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
-									<button type="button" class="btn btn-md btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
-									<button type="submit" class="btn btn-md btn-primary">Yes, Delete</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /Delete Product -->
+
 
 		<!-- Clear cart -->
 		<div class="modal fade modal-default" id="clearCart" aria-labelledby="payment-completed">
@@ -985,7 +1143,7 @@
 				<div class="modal-content">
 					<div class="modal-body p-0">
 						<div class="success-wrap text-center">
-							<div >
+							<div>
 								<div class="icon-success bg-danger-transparent text-danger mb-2">
 									<i class="ti ti-trash"></i>
 								</div>
@@ -993,72 +1151,74 @@
 								<p class="fs-16 mb-3">Vous êtes sur le point de vider tous les articles du pagnier
 								</p>
 								<div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
-									<button type="button" class="btn btn-md btn-secondary" data-bs-dismiss="modal">Non, Annuler</button>
-									<button type="button" class="btn btn-md btn-primary" hx-get="{% url 'vente:clearAll'  %}" hx-target="#product-order-list" data-bs-dismiss="modal">Oui, Supprimer</button>
+									<button type="button" class="btn btn-md btn-secondary" data-bs-dismiss="modal">Non,
+										Annuler</button>
+									<button type="button" class="btn btn-md btn-primary"
+										hx-get="{% url 'vente:clearAll'  %}" hx-target="#product-order-list"
+										data-bs-dismiss="modal">Oui, Supprimer</button>
 								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- /Clear cart -->
-		<div class="modal fade" id="modal">
-			<div class="modal-dialog modal-dialog-centered custom-modal-two"
-				 hx-target="this"
-				 id="dialog"
-			>
-				<div id="content"></div>
+			<!-- /Clear cart -->
+			<div class="modal fade" id="modal">
+				<div class="modal-dialog modal-dialog-centered custom-modal-two" hx-target="this" id="dialog">
+					<div id="content"></div>
+				</div>
 			</div>
-		</div>
-		<!-- jQuery -->
-		<script data-cfasync="false" src="{% static '' %}plugins/email-decode.min.js"></script>
-		<script src="{% static '' %}js/jquery-3.7.1.min.js" ></script>
+			<!-- jQuery -->
+			<script data-cfasync="false" src="{% static '' %}plugins/email-decode.min.js"></script>
+			<script src="{% static '' %}js/jquery-3.7.1.min.js"></script>
 
-		<!-- Feather Icon JS -->
-		<script src="{% static '' %}js/feather.min.js" ></script>
+			<!-- Feather Icon JS -->
+			<script src="{% static '' %}js/feather.min.js"></script>
 
-		<!-- Slimscroll JS -->
-		<script src="{% static '' %}js/jquery.slimscroll.min.js" ></script>
-		
-		<!-- Bootstrap Core JS -->
-		<script src="{% static '' %}js/bootstrap.bundle.min.js" ></script>
+			<!-- Slimscroll JS -->
+			<script src="{% static '' %}js/jquery.slimscroll.min.js"></script>
 
-		<!-- Chart JS -->
-		<script src="{% static '' %}plugins/apexchart/apexcharts.min.js" ></script>
-		<script src="{% static '' %}plugins/apexchart/chart-data.js" ></script>
+			<!-- Bootstrap Core JS -->
+			<script src="{% static '' %}js/bootstrap.bundle.min.js"></script>
 
-		<!-- Datatable JS -->
-		<script src="{% static '' %}js/jquery.dataTables.min.js" ></script>
-		<script src="{% static '' %}js/dataTables.bootstrap5.min.js" ></script>
+			<!-- Chart JS -->
+			<script src="{% static '' %}plugins/apexchart/apexcharts.min.js"></script>
+			<script src="{% static '' %}plugins/apexchart/chart-data.js"></script>
 
-		<!-- Daterangepikcer JS -->
-		<script src="{% static '' %}js/moment.min.js" ></script>
-		<script src="{% static '' %}plugins/daterangepicker/daterangepicker.js" ></script>
+			<!-- Datatable JS -->
+			<script src="{% static '' %}js/jquery.dataTables.min.js"></script>
+			<script src="{% static '' %}js/dataTables.bootstrap5.min.js"></script>
 
-		<!-- Owl JS -->
-		<script src="{% static '' %}plugins/owlcarousel/owl.carousel.min.js" ></script>
+			<!-- Daterangepikcer JS -->
+			<script src="{% static '' %}js/moment.min.js"></script>
+			<script src="{% static '' %}plugins/daterangepicker/daterangepicker.js"></script>
 
-		<!-- Select2 JS -->
-		<script src="{% static '' %}plugins/select2/js/select2.min.js" ></script>
+			<!-- Owl JS -->
+			<script src="{% static '' %}plugins/owlcarousel/owl.carousel.min.js"></script>
+
+			<!-- Select2 JS -->
+			<script src="{% static '' %}plugins/select2/js/select2.min.js"></script>
 
 
-		<!-- Sticky-sidebar -->
-		<script src="{% static '' %}plugins/theia-sticky-sidebar/ResizeSensor.js" ></script>
-		<script src="{% static '' %}plugins/theia-sticky-sidebar/theia-sticky-sidebar.js" ></script>
-		<script src="{% static '' %}js/htmx.min.js"></script>
-		<!-- Color Picker JS -->
-		<script src="{% static '' %}plugins/%40simonwep/pickr/pickr.es5.min.js" ></script>
-		
-		<!-- Custom JS -->
-		<script src="{% static '' %}js/theme-colorpicker.js" ></script>
-		<script src="{% static '' %}js/calculator.js" ></script>
-		<script src="{% static '' %}js/script.js" ></script>
-	
-        <script src="{% static '' %}plugins/rocket-loader/rocket-loader.js" defer></script>
+			<!-- Sticky-sidebar -->
+			<script src="{% static '' %}plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+			<script src="{% static '' %}plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+			<script src="{% static '' %}js/htmx.min.js"></script>
+			<!-- Color Picker JS -->
+			<script src="{% static '' %}plugins/%40simonwep/pickr/pickr.es5.min.js"></script>
 
-		
+			<!-- Custom JS -->
+			<script src="{% static '' %}js/theme-colorpicker.js"></script>
+			<script src="{% static '' %}js/calculator.js"></script>
+
+			<script src="{% static '' %}js/script.js"></script>
+
+
+
+
 </body>
 
 <!-- Mirrored from dreamspos.dreamstechnologies.com/html/template/pos-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 01 Apr 2025 11:36:09 GMT -->
+
 </html>

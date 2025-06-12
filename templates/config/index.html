@@ -1,197 +1,218 @@
-{% extends "base.html" %}
+
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}Paramètres géneraux {% endblock title %}
-{% block content %}
-<div class="page-wrapper">
-    <div class="content settings-content">
-        <div class="page-header settings-pg-header">
-            <div class="add-item d-flex">
-                <div class="page-title">
-                    <h4>Paramètres</h4>
-                    <h6>Renseignez les informations nécessaire des votre entreprise</h6>
-                </div>
-            </div>
-            <ul class="table-top-head">
-                <li>
-                    <a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"><i data-feather="rotate-ccw" class="feather-rotate-ccw"></i></a>
-                </li>
-                <li>
-                    <a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i data-feather="chevron-up" class="feather-chevron-up"></i></a>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                 <div class="settings-wrapper d-flex">
-                    <div class="sidebars settings-sidebar theiaStickySidebar" id="sidebar2">
-                        <div class="sidebar-inner slimscroll">
-                            <div id="sidebar-menu5" class="sidebar-menu">
-                                <ul>
-                                    <li class="submenu-open">
-                                        <ul>
-                                            <li >
-                                                <a href="{% url "config:settings_view" %}" class="active subdrop"><i data-feather="settings"></i><span>Paramètres généraux</span></a>
-                                               
-                                            </li>
-                                            
-                                            <li >
-                                                <a href="{% url "config:mail_settings" %}"><i data-feather="mail"></i><span>Mails de notification</span></a>
-                                                
-                                            </li>
-                                        </ul>								
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                        </div>
+
+
+<div class="content settings-content">
+					<div class="page-header settings-pg-header">
+						<div class="add-item d-flex">
+							<div class="page-title">
+								<h4>Paramètres</h4>
+								<h6>Configuration générale de votre entreprise</h6>
+							</div>
+						</div>
+						<ul class="table-top-head">
+							<li>
+								<a hx-get="{% url 'config:settings_view' %}" hx-target="#content" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"><i class="ti ti-refresh"></i></a>
+							</li>
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i class="ti ti-chevron-up"></i></a>
+							</li>
+						</ul>
+					</div>
+					<div class="row">
+						<div class="col-xl-12">
+							 <div class="settings-wrapper d-flex">
+								
+								<div class="card flex-fill mb-0">
+									<div class="card-header">
+										<h4 class="fs-18 fw-bold">Parametrage général</h4>
+									</div>
+									<div class="card-body">
+                                        {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
+                                class="fas fa-xmark"></i></button>
                     </div>
-                    <div class="settings-page-wrap">
-                        <form action="" method="Post">
-                            {% csrf_token %}
-                            <div class="setting-title">
-                                <h4>Paramètres de base</h4>
-                                
-                            </div>
-                            {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
-                            class="fas fa-xmark"></i></button>
-                </div>
-                {% endfor %}
-                {% endif %}
-                            <div class="card-title-head">
-                                <h6><span><i data-feather="tag" class="feather-chevron-up"></i></span>Mention légale</h6>
-                            </div>
-                           
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.compony_idnat.label}}</label>
-                                            {% render_field form.compony_idnat class="form-control" %}
-                                        
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.compony_rccm.label}}</label>
-                                        {% render_field form.compony_rccm class="form-control" %}
-                                    </div>
-                                </div>
-                                
-                            </div>
+                    {% endfor %}
+                    {% endif %}
+										<form hx-post="{% url 'config:settings_view' %}" hx-target="#content" hx-swap="innerHTML">
+                                            {% csrf_token %}
+											<div class="border-bottom mb-3">
+												<div class="card-title-head">
+													<h6 class="fs-16 fw-bold mb-2">
+														<span class="fs-16 me-2"><i class="ti ti-building"></i></span> 
+														informations de base
+													</h6>
+												</div>
+												<div class="row">
+													<div class="col-xl-4 col-lg-6 col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Nom de l'entreprise  <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.compony_name class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_name" required placeholder="Nom de l'entreprise"> -->
+														</div>
+													</div>
+													<div class="col-xl-4 col-lg-6 col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Votre slogan  
+															</label>
+                                                            {% render_field form.compony_slogan class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_slogan" placeholder="Votre slogan"> -->
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																N° Téléphone <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.compony_phone class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_phone" required placeholder="N° Téléphone"> -->
+														</div>
+													</div>
+													<div class="col-md-8">
+														<div class="mb-3">
+															<label class="form-label">
+																Adresse <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.compony_adress class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_address" required placeholder="Votre Adresse"> -->
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Email 
+															</label>
+                                                            {% render_field form.compony_email class="form-control" %}
+															<!-- <input type="email" class="form-control" name="company_email" placeholder="Votre adresse Email"> -->
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="border-bottom mb-3 pb-3">
+												<div class="card-title-head">
+													<h6 class="fs-16 fw-bold mb-2">
+														<span class="fs-16 me-2"><i class="ti ti-brand-unity"></i></span> 
+														Informations légales
+													</h6>
+												</div>
+												<div class="row ">
+													
+													<div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																RCCM <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.compony_rccm class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_rccm" required> -->
+														</div>
+													</div>
 
-                            <div class="card-title-head">
-                                <h6><span><i data-feather="user" class="feather-chevron-up"></i></span>Informations de l'entréprise</h6>
-                            </div>
-                           
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.compony_name.label}}</label>
-                                            {% render_field form.compony_name class="form-control" %}
-                                        
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.compony_slogan.label}}</label>
-                                        {% render_field form.compony_slogan class="form-control" %}
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div class="card-title-head">
-                                <h6><span><i data-feather="phone-call" class="feather-chevron-up"></i></span>Nos contacts</h6>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.compony_phone.label}}</label>
-                                        {% render_field form.compony_phone class="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.compony_email.label}}</label>
-                                        {% render_field form.compony_email class="form-control" %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-title-head">
-                                <h6><span><i data-feather="map-pin" class="feather-chevron-up"></i></span>Notre adresse</h6>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.compony_adress.label}}</label>
-                                        {% render_field form.compony_adress class="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-lg-4 col-md-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Pays</label>
-                                        {% render_field form.compony_country class="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Province</label>
-                                        {% render_field form.compony_province class="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ville</label>
-                                        {% render_field form.compony_city class="form-control" %}
-                                    </div>
-                                </div>
-                                
-                            </div>
+                                                    <div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																IDNAT <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.compony_idnat class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_idnat" required> -->
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="company-address">
+												<div class="card-title-head">
+													<h6 class="fs-16 fw-bold mb-2">
+														<span class="fs-16 me-2"><i class="ti ti-map-pin"></i></span> 
+														Localisation
+													</h6>
+												</div>
+												<div class="row">
+													<div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Pays <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.compony_country class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_country" required> -->
+														</div>
+													</div>
 
-                            <div class="card-title-head">
-                                <h6><span><i data-feather="shopping-cart" class="feather-chevron-up"></i></span>Vente & compte</h6>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.taux.label}}</label>
-                                        {% render_field form.taux class="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-lg-4 col-md-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.remise.label}}</label>
-                                        {% render_field form.remise class="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{form.seuil_remise.label}}</label>
-                                        {% render_field form.seuil_remise class="form-control" %}
-                                    </div>
-                                </div>
-                                
-                                
-                            </div>
-                            <div class="text-end settings-bottom-btn">
-                                <button type="button" class="btn btn-cancel me-2">Cancel</button>
-                                <button type="submit" class="btn btn-submit">Save Changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
+                                                    <div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Province <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.compony_province class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_province" required> -->
+														</div>
+													</div>
+                                                    <div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Ville <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.compony_city class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_city" required> -->
+														</div>
+													</div>
+													
+												</div>
+											</div>
+                                            <div class="border-bottom mb-3 pb-3">
+												<div class="card-title-head">
+													<h6 class="fs-16 fw-bold mb-2">
+														<span class="fs-16 me-2"><i class="ti  ti-compass""></i></span> 
+														Devise & Rémise
+													</h6>
+												</div>
+												<div class="row ">
+													
+													<div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Taux de change <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.taux class="form-control" %}
+															<!-- <input type="number" class="form-control" name="company_taux" required> -->
+														</div>
+													</div>
 
-{% endblock content %}
+                                                    <div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Rémise  <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.remise class="form-control" %}
+															<!-- <input type="text" class="form-control" name="company_idnat" required placeholder="La rémise en %"> -->
+														</div>
+													</div>
 
-{% block js %}
-    <script src="{% static "js/ResizeSensor.js" %}"></script>
-    <script src="{% static "theia-sticky-sidebar.js" %}"></script>
-{% endblock js %}
+                                                    <div class="col-md-4">
+														<div class="mb-3">
+															<label class="form-label">
+																Seuil  <span class="text-danger">*</span>
+															</label>
+                                                            {% render_field form.seuil_remise class="form-control" %}
+															<!-- <input type="number" class="form-control" name="company_idnat" required placeholder="La somme minimal pour bénéficier d'une rémise"> -->
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="text-end settings-bottom-btn mt-0">
+												
+												<button type="submit" class="btn btn-primary">Enregistrer</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>

@@ -20,22 +20,22 @@ def update_product_stock(sender, instance, created, **kwargs):
          
    
         
-# @receiver(post_save, sender=Facture)
-# def update_vente(sender, instance, created, **kwargs):
-#     vente=instance.vente
-#     total=vente.total
-#     net=instance.netPaye
-#     print("****************** TOTAL VENTE **************************************")
-#     print(total)
-#     print("******************NET A PAYER **************************************")
-#     print(net)
-#     vente.total=0
-#     vente.save()
-#     print("******************TOTAL VENTE AVANT **************************************")
-#     print(vente.total)
-#     vente.total = net + total
-#     print("******************TOTAL VENTE APRES **************************************")
-#     print(vente.total)
-#     vente.save()
+@receiver(post_save, sender=Facture)
+def update_vente(sender, instance, created, **kwargs):
+    vente=instance.vente
+    total=vente.total
+    net=instance.netPaye
+    print("****************** TOTAL VENTE **************************************")
+    print(total)
+    print("******************NET A PAYER **************************************")
+    print(net)
+    vente.total=0
+    vente.save()
+    print("******************TOTAL VENTE AVANT **************************************")
+    print(vente.total)
+    vente.total = net + total
+    print("******************TOTAL VENTE APRES **************************************")
+    print(vente.total)
+    vente.save()
       
         

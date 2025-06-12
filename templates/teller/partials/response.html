@@ -1,74 +1,83 @@
-
 {% load static %}
+
+{% load humanize %}
+
 <div class="content pos-design p-0">
 
     <div class="row align-items-start pos-wrapper">
 
         <!-- Products -->
-        <div class="col-md-12 col-lg-7 col-xl-8" id="prod_list">
+        <div class="col-md-12 col-lg-7 col-xl-8 " id="prod_list">
             <div class="pos-categories tabs_wrapper pb-0">
-                <div class="card pos-button">
-                    <div class="d-flex align-items-center flex-wrap">
-                        Vente: {{total|default:0}} CDF
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+                    <div>
+                        <h5 class="mb-1">Welcome, {{request.user.username}}</h5>
+                        <p>{{date}}</p>
                     </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <h4 class="mb-3">Categories</h4>
-                </div>
-                <ul class="tabs owl-carousel pos-category"  >
-                    <li   class="active" hx-get="{% url 'dashboard:filter_by_all_category' %}" hx-target="#product-list" hx-swap="outerHTML">
-                        <a href="javascript:void(0);">
-                            <img src="{% static '' %}img/all.webp" alt="Categories">
-                        </a>
-                        <h6><a href="javascript:void(0);">Toutes</a></h6>
-                        <span>{{articles.count}} Article{{ articles.count|pluralize }}</span>
-                    </li>
-                    {% for cat in categories %}
-                        
-                        {% if cat.num_product > 0 %}
-                        <li  class="" hx-get="{% url 'dashboard:filter_by_category' cat.pk %}" hx-target="#product-list" hx-swap="outerHTML">
-                            <a href="javascript:void(0);">
-                                <img src="{{cat.img.url}}" alt="Categories">
-                            </a>
-                            <h6><a href="javascript:void(0);">{{cat.name}}</a></h6>
-                            <span>{{cat.num_product}} Article{{ cat.num_product|pluralize }}</span>
-                        </li>
-                        {% endif %}
-                            
-                    {% endfor %}
-                        
-                    
-                    
-                    
-                </ul>
-                <div class="pos-products">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h4 class="mb-3">Articles</h4>
-                        <div class="input-icon-start pos-search position-relative mb-3 col-8 col-md-6 col-lg-5 col-xl-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="input-icon-start pos-search position-relative">
                             <span class="input-icon-addon">
                                 <i class="ti ti-search"></i>
                             </span>
-                            <form hx-post="{% url 'dashboard:search_view'%}" hx-target="#product-list" hx-swap="outerHTML" hx-trigger="input changed delay:.3s">
+                            <form hx-post="{% url 'dashboard:search_view'%}" hx-target="#product-list"
+                                hx-swap="outerHTML" hx-trigger="input changed delay:.3s">
                                 {% csrf_token %}
-                                    <input type="text" class="form-control" placeholder="Chercher l'article " name="q">
+                                <input type="text" class="form-control" placeholder="Chercher l'article " name="q">
                             </form>
                         </div>
+
+                        <a class="btn btn-sm btn-primary">
+                            <h3>{{total|default:0|intcomma}} CDF</h1>
+                        </a>
                     </div>
+                </div>
+
+                <ul class="tabs owl-carousel pos-category3 mb-4">
+                    <li id="all" class="active" hx-get="{% url 'dashboard:filter_by_all_category' %}"
+                        hx-target="#product-list" hx-swap="outerHTML">
+                        <a>
+                            <img src=" {% static '' %}img/categories/category-01.svg" alt="Categories">
+                        </a>
+                        <h6><a href="javascript:void(0);">Toutes</a></h6>
+                    </li>
+                    {% for cat in categories %}
+
+                    {% if cat.num_product > 0 %}
+
+                    <li hx-get="{% url 'dashboard:filter_by_category' cat.pk %}" hx-target="#product-list"
+                        hx-swap="outerHTML">
+                        <a href="javascript:void(0);">
+                            <img src="{{cat.img.url}}" alt="Categories">
+                        </a>
+                        <h6><a href="javascript:void(0);">{{cat.name}}</a></h6>
+                    </li>
+                    {% endif %}
+
+                    {% endfor %}
+
+                </ul>
+                <div class="pos-products">
+
                     <div class="tabs_container">
-                        <div  class="tab_content active" data-tab="all">
-                            <div class="row" id="product-list">
-                            
+                        <div class="tab_content active" data-tab="all">
+                            <div class="row mb-5" id="product-list">
+
                                 {% for item in articles %}
-                            
+
                                 <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                                    <div class="product-info card" hx-get="{% url 'vente:add_to_cart' item.pk %}" hx-target="#product-order-list" hx-swap="innerHTML" hx-trigger="click">
+                                    <div class="product-info card" hx-get="{% url 'vente:add_to_cart' item.pk %}"
+                                        hx-target="#product-order-list" hx-swap="innerHTML" hx-trigger="click">
                                         <a href="javascript:void(0);" class="pro-img">
-                                            <img src="{% static '' %}img/img_placeholder.jpg" alt="Products" class="product-img">
+                                            <img src="{% static '' %}img/img_placeholder.jpg" alt="Products"
+                                                class="product-img">
                                             <span><i class="ti ti-circle-check-filled"></i></span>
                                         </a>
                                         <div class="px-2">
-                                            <h6 class="cat-name"><a href="javascript:void(0);">{{item.categorie}}</a></h6>
-                                            <h6 class="product-name"><a href="javascript:void(0);">{{item.libelle}}</a></h6>
+                                            <h6 class="cat-name"><a href="javascript:void(0);">{{item.categorie}}</a>
+                                            </h6>
+                                            <h6 class="product-name"><a href="javascript:void(0);">{{item.libelle}}</a>
+                                            </h6>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between price px-2 py-2">
                                             <span>{{item.qtyStock}} Pc{{articles.count|pluralize}}</span>
@@ -76,179 +85,231 @@
                                         </div>
                                     </div>
                                 </div>
-                            
-                            
+
+
                                 {% endfor %}
-                            
-                            
-                            </div>
-                        </div>
-                        <div  class="tab_content" data-tab="headphones">
-                            <div class="row">
-                                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                    <div class="product-info card">
-                                        <a href="javascript:void(0);" class="pro-img">
-                                            <img src="{% static '' %}img/products/pos-product-05.png" alt="Products">
-                                            <span><i class="ti ti-circle-check-filled"></i></span>
-                                        </a>
-                                        <h6 class="cat-name"><a href="javascript:void(0);">Headphones</a></h6>
-                                        <h6 class="product-name"><a href="javascript:void(0);">Airpod 2</a></h6>
-                                        <div class="d-flex align-items-center justify-content-between price">
-                                            <span>47 Pcs</span>
-                                            <p>$5478</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                    <div class="product-info card">
-                                        <a href="javascript:void(0);" class="pro-img">
-                                            <img src="{% static '' %}img/products/pos-product-08.png" alt="Products">
-                                            <span><i data-feather="check" class="feather-16" ></i></span>
-                                        </a>
-                                        <h6 class="cat-name"><a href="javascript:void(0);">Headphones</a></h6>
-                                        <h6 class="product-name"><a href="javascript:void(0);">SWAGME</a></h6>
-                                        <div class="d-flex align-items-center justify-content-between price">
-                                            <span>14 Pcs</span>
-                                            <p>$6587</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        
+
+                            </div>
+                        </div>
+                        < </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- /Products -->
+            <!-- /Products -->
 
-        <!-- Order Details -->
-        <div class="col-md-12 col-lg-5 col-xl-4 ps-0 theiaStickySidebar">
-            <aside class="product-order-list" id="product-order-list" id="prod_list">
-                <div class="customer-info">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                        <div class="d-flex align-items-center">
-                            <h4 class="mb-0">Nouvelle facture</h4>
-                            <span class="badge badge-purple badge-xs fs-10 fw-medium ms-2">{{num_facture}}</span>
-                        </div>
-                        
-                    </div>
-                    <input type="text" class="form-control" placeholder="Nom du client">
-                </div>
-                <div class="product-added block-section">
-                    <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
-                        <h5 class="d-flex align-items-center mb-0">Order Details</h5>
-                        <div class="badge bg-light text-gray-9 fs-12 fw-semibold py-2 border rounded">Items : <span class="text-teal">{{total_items}}</span></div>
-                    </div>
-                    <div class="product-wrap">
-                        
-                        
-                        {% if items.count > 0 %}
-                        <div class="product-list border-0 p-0">
-                            <div class="table-responsive">
-                                <table class="table table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th class="bg-transparent fw-bold">Product</th>
-                                            <th class="bg-transparent fw-bold">QTY</th>
-                                            <th class="bg-transparent fw-bold">Price</th>
-                                            <th class="bg-transparent fw-bold text-end"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                        {% for item in items %}
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <h6 class="fs-16 fw-medium"><a href="#" data-bs-toggle="modal" data-bs-target="#products">{{item.product.libelle}}</a></h6>
-                                                    
-                                                </div>
-                                                Prix : {{item.prix}} CDF
-                                            </td>
-                                            <td>
-                                                <div class="qty-item m-0">
-                                                    <a href="javascript:void(0);" class="dec d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" title="minus"><i data-feather="minus-circle" class="feather-14"></i></a>
-                                                    <input type="text" class="form-control text-center" name="qty" value="{{item.qty}}" readonly>
-                                                    <a href="javascript:void(0);" class="inc d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" title="plus"><i data-feather="plus-circle" class="feather-14"></i></a>
-                                                </div>
-                                            </td>
-                                            <td class="fw-bold">{{item.prix}} CDF</td>
-                                            <td class="text-end">
-                                                <a class="btn-icon delete-icon" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete">
-                                                    <i class="ti ti-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                            
-                                        
-                                    </tbody>
-                                </table>
+            <!-- Order Details -->
+            <div class="col-md-12 col-lg-5 col-xl-4 ps-0 theiaStickySidebar">
+                <aside class="product-order-list" id="product-order-list" id="prod_list">
+                    <div class="customer-info">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                            <div class="d-flex align-items-center">
+                                <h4 class="mb-0">Nouvelle facture</h4>
+                                <span class="badge badge-purple badge-xs fs-10 fw-medium ms-2">{{num_facture}}</span>
                             </div>
+
                         </div>
-                        {% else %}
-                        <div class="empty-cart">
-                            <div class="mb-1">
-                                <img src="{% static '' %}img/icons/empty-cart.svg" alt="img">
-                            </div>
-                            <p class="fw-bold">Pas d'articles dans le pagnier</p>
-                        </div>
-                        {% endif %}
-                                                                    
+
                     </div>
-                </div>
-                
-                
-            </aside>
-        </div>
-        <!-- /Order Details -->
+                    <div class="product-added block-section">
+                        <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+                            <h5 class="d-flex align-items-center mb-0">Order Details</h5>
+                            <div class="badge bg-light text-gray-9 fs-12 fw-semibold py-2 border rounded">
+                                Items : <span class="text-teal">{{total_items|default:"0"}}</span></div>
+                        </div>
+                        <div class="product-wrap">
 
-        <div class="pos-footer bg-white p-3 border-top">
-            <div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
-                
-                <a href="javascript:void(0);" class="btn btn-cyan d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#cash"><i class="ti ti-cash-banknote me-2"></i>Cash du jour</a>
 
-                <a href="javascript:void(0);" class="btn btn-danger d-inline-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#depenses"><i class="ti ti-refresh-dot me-2"></i>Dépenses</a>
-                <a href="javascript:void(0);" class="btn btn-purple btn-md d-inline-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#hold-order"><i class="ti ti-player-pause me-2"></i>Clôturer la vente</a>
+                            {% if items.count > 0 %}
+                            <div class="product-list border-0 p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th class="bg-transparent fw-bold">Product</th>
+                                                <th class="bg-transparent fw-bold">QTY</th>
+                                                <th class="bg-transparent fw-bold">Price</th>
+                                                <th class="bg-transparent fw-bold text-end"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for item in items %}
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center mb-1">
+                                                        <h6 class="fs-16 fw-medium"><a href="#" data-bs-toggle="modal"
+                                                                data-bs-target="#products">{{item.product.libelle}}</a>
+                                                        </h6>
+
+                                                    </div>
+                                                    Prix : {{item.prix}} CDF
+                                                </td>
+                                                <td>
+                                                    <div class="qty-item m-0">
+                                                        <a href="javascript:void(0);"
+                                                            class="dec d-flex justify-content-center align-items-center"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="minus"><i data-feather="minus-circle"
+                                                                class="feather-14"></i></a>
+                                                        <input type="text" class="form-control text-center" name="qty"
+                                                            value="{{item.qty}}" readonly>
+                                                        <a href="javascript:void(0);"
+                                                            class="inc d-flex justify-content-center align-items-center"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="plus"><i data-feather="plus-circle"
+                                                                class="feather-14"></i></a>
+                                                    </div>
+                                                </td>
+                                                <td class="fw-bold">{{item.prix}} CDF</td>
+                                                <td class="text-end">
+                                                    <a class="btn-icon delete-icon" href="javascript:void(0);"
+                                                        data-bs-toggle="modal" data-bs-target="#delete">
+                                                        <i class="ti ti-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="empty-cart">
+                                <div class="mb-1">
+                                    <img src="{% static '' %}img/icons/empty-cart.svg" alt="img">
+                                </div>
+                                <p class="fw-bold">Pas d'articles dans le pagnier</p>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+
+                </aside>
             </div>
-        </div>
+            <!-- /Order Details -->
 
+            <div class="pos-footer bg-white p-3 border-top">
+                <div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
+
+                    <a href="javascript:void(0);" class="btn btn-cyan d-flex align-items-center justify-content-center"
+                        data-bs-toggle="modal" data-bs-target="#cash"><i class="ti ti-cash-banknote me-2"></i>Cash du
+                        jour</a>
+
+                    <a href="javascript:void(0);"
+                        class="btn btn-danger d-inline-flex align-items-center justify-content-center"
+                        data-bs-toggle="modal" data-bs-target="#depenses"><i
+                            class="ti ti-refresh-dot me-2"></i>Dépenses</a>
+                    <a href="javascript:void(0);"
+                        class="btn btn-purple btn-md d-inline-flex align-items-center justify-content-center"
+                        data-bs-toggle="modal" data-bs-target="#hold-order"><i
+                            class="ti ti-player-pause me-2"></i>Clôturer la vente</a>
+                </div>
+            </div>
+            {% if not cash.estConfirme %}
+            <div class="modal fade pos-modal show" id="cash" tabindex="-1" style="display: block; padding-left: 0px;"
+                aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
+                    <div class="modal-content bg-soft-primary">
+                        <div class="modal-header">
+                            <h5 class="modal-title">CONFIRMATION DU CASH</h5>
+
+                        </div>
+                        <div class="modal-body ">
+                            <div class="tabs-sets">
+
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="onhold" role="tabpanel"
+                                        aria-labelledby="onhold-tab">
+
+                                        <div class="order-body">
+                                            <div class="card bg-light mb-3">
+                                                <div class="card-body">
+                                                    <span class="badge bg-dark fs-12 mb-4">Cash du
+                                                        jour</span>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-6">
+                                                            <p class="fs-24 mb-1"><span
+                                                                    class="fs-14 fw-bold text-gray-9">Franc
+                                                                    :</span> {{cash.franc}} CDF</p>
+
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p class="fs-24"><span
+                                                                    class="fs-14 fw-bold text-gray-9">Dollars
+                                                                    :</span> ${{cash.dollar}}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="bg-danger-transparent p-3 rounded text-center my-3">
+                                                        <p class="text-danger fw-medium">Veuillez confirmer
+                                                            le montant du cash ou informez le boss en cas
+                                                            d'incoherence !</p>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-items-center justify-content-center flex-wrap gap-2">
+                                                        <a hx-get="{% url 'cash:cash_confirmation' %}"
+                                                            hx-target="#content"
+                                                            class="btn btn-md btn-orange">Confirmer</a>
+
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
     </div>
-    <script>
+     <script>
         // POS Category Slider
-	if($('.pos-category').length > 0) {      
-		$('.pos-category').owlCarousel({
-			items: 6,
-			loop:false,
-			margin:8,
-			nav:true,
-			dots: false,
-			autoplay:false,
-			smartSpeed: 1000,
-			navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
-			responsive:{
-				0:{
-					items:2
-				},
-				500:{
-					items:3
-				},
-				768:{
-					items:4
-				},
-				991:{
-					items:5
-				},
-				1200:{
-					items:6
-				},
-				1401:{
-					items:6
-				}
-			}
-		})
-	}
+        if ($('.pos-category3').length > 0) {
+            $('.pos-category3').owlCarousel({
+                items: 6,
+                loop: false,
+                margin: 8,
+                nav: true,
+                dots: false,
+                autoplay: false,
+                smartSpeed: 1000,
+                navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
+                responsive: {
+                    0: {
+                        items: 2
+                    },
+                    500: {
+                        items: 3
+                    },
+                    768: {
+                        items: 4
+                    },
+                    991: {
+                        items: 5
+                    },
+                    1200: {
+                        items: 6
+                    },
+                    1401: {
+                        items: 6
+                    }
+                }
+            })
+        }
     </script>
 </div>

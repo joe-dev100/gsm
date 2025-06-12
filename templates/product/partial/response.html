@@ -52,7 +52,7 @@
                                 <a href="javascript:void(0);" class="dropdown-item rounded-1"  data-bs-toggle="modal" data-bs-target="#delete-all-modal">Supprimer tous</a>
                             </li>
                             <li>
-                                <a href="javascript:void(0);" class="dropdown-item rounded-1" hx-post="{% url 'product:product_activate_selection' %}" hx-target="#content">Activer la séléction</a>
+                                <a href="javascript:void(0);" class="dropdown-item rounded-1" data-bs-toggle="modal" data-bs-target="#deactivate-selection-modal" >Activer la séléction</a>
                             </li>
                             <li>
                                 <a href="javascript:void(0);" class="dropdown-item rounded-1" hx-post="{% url 'product:product_deactivate_selection' %}" hx-target="#content">Désactiver la séléction</a>
@@ -177,7 +177,7 @@
                                             <div class="content p-5 px-3 text-center" >
                                                     <span class="rounded-circle d-inline-flex p-2 bg-danger-transparent mb-2"><i class="ti ti-trash fs-24 text-danger"></i></span>
                                                     <h4 class="fs-20 fw-bold mb-2 mt-1">ATTENTION</h4>
-                                                    <p class="mb-0 fs-16">Vous êtes sur le point de supprimer la catégorie <code><b>{{item.name|upper}}</b></code> voulez-vous continuer ?</p>
+                                                    <p class="mb-0 fs-16">Vous êtes sur le point de supprimer l'article <code><b>{{item.codeRef|upper}} : {{item.libelle|upper}}</b></code> voulez-vous continuer ?</p>
                                                     <div class="modal-footer-btn mt-3 d-flex justify-content-center">
                                                         <button type="button" class="btn me-2 btn-secondary fs-13 fw-medium p-2 px-3 shadow-none" data-bs-dismiss="modal">Annuler</button>
                                                         <button hx-get="{% url 'product:product_delete_view' item.pk %}" data-bs-dismiss="modal" hx-target="#content" class="btn btn-primary fs-13 fw-medium p-2 px-3">Oui Supprimer</button>
@@ -192,18 +192,14 @@
                     </table>
                 </div>
             </div>
-        </form>
-    </div>
-    <!-- /product list -->
-    <!-- MODAL DE CONFIRMATION DE SUPPRESSION MULTIPLE -->
-	<div class="modal fade" id="delete-all-modal">
+            <div class="modal fade" id="delete-all-modal">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content" >
 				<div class="page-wrapper-new p-0" style="height: 300px !important;">
 					<div class="content p-5 px-3 text-center" >
 							<span class="rounded-circle d-inline-flex p-2 bg-danger-transparent mb-2"><i class="ti ti-trash fs-24 text-danger"></i></span>
 							<h4 class="fs-20 fw-bold mb-2 mt-1">ATTENTION</h4>
-							<p class="mb-0 fs-16">Vous êtes sur le point de supprimer toutes les catégories cette action supprimera aussi tous les produits liés voulez-vous continuer ?</p>
+							<p class="mb-0 fs-16">Vous êtes sur le point de supprimer tous les articles cette action supprimera aussi toutes les ventes, toutes les factures, toutes les entrées et sorties de stock voulez-vous continuer ?</p>
 							<div class="modal-footer-btn mt-3 d-flex justify-content-center">
 								<button type="button" class="btn me-2 btn-secondary fs-13 fw-medium p-2 px-3 shadow-none" data-bs-dismiss="modal">Annuler</button>
 								<button hx-post="{% url 'product:product_delete_all_view' %}" hx-target="#content" data-bs-dismiss="modal"  class="btn btn-primary fs-13 fw-medium p-2 px-3">Oui Supprimer</button>
@@ -220,7 +216,7 @@
 					<div class="content p-5 px-3 text-center" >
 							<span class="rounded-circle d-inline-flex p-2 bg-danger-transparent mb-2"><i class="ti ti-trash fs-24 text-danger"></i></span>
 							<h4 class="fs-20 fw-bold mb-2 mt-1">ATTENTION</h4>
-							<p class="mb-0 fs-16">Vous êtes sur le point de désactiver toutes les catégories cette action désactivera aussi tous les produits liés voulez-vous continuer ?</p>
+							<p class="mb-0 fs-16">Vous êtes sur le point de désactiver tous les articles. Voulez-vous continuer ?</p>
 							<div class="modal-footer-btn mt-3 d-flex justify-content-center">
 								<button type="button" class="btn me-2 btn-secondary fs-13 fw-medium p-2 px-3 shadow-none" data-bs-dismiss="modal">Annuler</button>
 								<button hx-post="{% url 'product:product_deactive_all_view' %}" hx-target="#content" data-bs-dismiss="modal"  class="btn btn-primary fs-13 fw-medium p-2 px-3">Oui Continuer</button>
@@ -230,6 +226,28 @@
 			</div>
 		</div>
 	</div>
+    <div class="modal fade" id="deactivate-selection-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content" >
+				<div class="page-wrapper-new p-0" style="height: 300px !important;">
+					<div class="content p-5 px-3 text-center" >
+							<span class="rounded-circle d-inline-flex p-2 bg-danger-transparent mb-2"><i class="ti ti-trash fs-24 text-danger"></i></span>
+							<h4 class="fs-20 fw-bold mb-2 mt-1">ATTENTION</h4>
+							<p class="mb-0 fs-16">Vous êtes sur le point de désactiver  les articles sélectionnés. Voulez-vous continuer ?</p>
+							<div class="modal-footer-btn mt-3 d-flex justify-content-center">
+								<button type="button" class="btn me-2 btn-secondary fs-13 fw-medium p-2 px-3 shadow-none" data-bs-dismiss="modal">Annuler</button>
+								<button hx-post="{% url 'product:product_deactive_all_view' %}" hx-target="#content" data-bs-dismiss="modal"  class="btn btn-primary fs-13 fw-medium p-2 px-3">Oui Continuer</button>
+							</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+        </form>
+    </div>
+    <!-- /product list -->
+    <!-- MODAL DE CONFIRMATION DE SUPPRESSION MULTIPLE -->
+	
 </div>
 <script>
     

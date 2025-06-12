@@ -1,7 +1,9 @@
 from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.contrib.humanize.templatetags.humanize import intcomma
 
+from cash.models import Cash, EntreeCash, SortieCash
 from category.models import Categorie
 from product.models import Product
 from utils import numFacture
@@ -19,25 +21,67 @@ def session_list(request):
 
 
 
-def session_update(request, pk):
+def open_session(request, pk):
     session = Session.objects.get(pk=pk)
-    items=Session.objects.all().order_by('login__username')
+    if request.method == 'POST':
+        
+        dollar = request.POST.get('dollar')
+        franc = request.POST.get('franc')
+        date=datetime.now().date()
+        if not franc:
+            franc = '0'
+        if not dollar:
+            dollar = '0'
+            
+        
+        cash=Cash.objects.create(
+            date=date, 
+            dollar=int(dollar), 
+            franc=int(franc),
+            estConfirme=False,
+            session=session,
+            )
     
-    if session.EstOuvert == True:
-        session.EstOuvert = False
-        session.LastDateClose = datetime.now()
-       
-    else:
+        if cash:
+            session.EstOuvert = True
+            session.LastDateOpen = datetime.now()  
+            session.save()
+            context={
+                'items': Session.objects.all().order_by('login__username'),
+                'dollar': int(dollar),
+                'franc': int(franc),
+                'user': session.login.username,
+                'open': True,
+            }
+            messages.success(request, "Vous avez ouvert la session de l': ")
+            return render(request, 'vente/session/partial/response.html', context)
         session.EstOuvert = True
-        session.LastDateOpen = datetime.now()
-    context = {
-        'items': items,
-    }
-
-    session.save()
-    print("********************************************************")
-    print(session.EstOuvert)
+        session.LastDateOpen = datetime.now()  
+        session.save()
+       
+        context={
+                'items': Session.objects.all().order_by('login__username'),
+                'dollar': int(dollar),
+                'franc': int(franc),
+                'user': session.login.username,
+                'open': True,
+            }
+        messages.success(request, f"Vous avez ouvert la session de l'utilisateu: ")
+        return render(request, 'vente/session/partial/response.html', context)
     return render(request, 'vente/session/partial/response.html', context)
+        
+
+def close_session(request, pk):
+    session = Session.objects.get(pk=pk)
+      
+    session.EstOuvert = False
+    session.LastDateClose = datetime.now()  
+    session.save()
+    messages.success(request, "Vous avez fermé la session de l'utilisateur: ")
+    return render(request, 'vente/session/partial/response.html', {
+                'items': Session.objects.all().order_by('login__username'),
+                'user': session.login.username,
+            })
 
 
 def addToCart(request, pk):
@@ -143,25 +187,32 @@ def saveCart(request):
     Cart.objects.all().delete()
     numFacture(request.user)
     categories=Categorie.objects.all().annotate(num_product=Count("product")).filter(status="Activée").order_by('name')
-    total=Facture.objects.filter(utilisateur__login=request.user).aggregate(total=Sum('netPaye'))['total']
-
+    total=Facture.objects.filter(utilisateur__login=request.user,vente__dateVente=datetime.datetime.now().date()).aggregate(total=Sum('netPaye'))['total']
     articles= Product.objects.all().order_by('libelle')
+    cash=Cash.objects.filter(session__login=request.user).last()
     context={
         'categories':categories,
         'articles':articles,
         'total':total,
+        'cash':cash,
+        'date':datetime.now().date(),
+        
     }
     html = render(request, "teller/partials/response.html", context)
     return HttpResponse(html)
 
+
 def increseQty(request, pk):
-    total=Cart.objects.aggregate(total=Sum('total'))['total']
-    fact=Facture.objects.last()
     item = Cart.objects.get(pk=pk)
     qtyStock=item.product.qtyStock
-    item.qty += 1
-    newQty=item.qty
-    item.total = item.prix * item.qty
+    if item.qty < qtyStock:
+        item.qty += 1
+        item.total = item.prix * item.qty
+        item.save()
+    else:
+        messages.error(request,"La quantité est insuffisante !")
+    total=Cart.objects.aggregate(total=Sum('total'))['total']
+    fact=Facture.objects.last()
     net=0
     if fact.remise > 0 and total > fact.remise:
         net = total - fact.remise
@@ -175,16 +226,39 @@ def increseQty(request, pk):
         'net': net,
         'total_items': Cart.objects.count(),
     }
-    if newQty > qtyStock:
-        messages.error(request,"La quantité est insuffisante !")
-        html = render(request, "teller/partials/order_detail.html", context)
-        return HttpResponse(html)
-    item.save()
-    
-    
     html = render(request, "teller/partials/order_detail.html", context)
     return HttpResponse(html)
-
+def change_qty_in_input(request, pk):
+    fact=Facture.objects.last()
+    item = Cart.objects.get(pk=pk)
+    qty=request.GET.get('qty') or 1
+    qtyStock=item.product.qtyStock
+    item.qty =int(qty)
+    newQty=item.qty
+    total=Cart.objects.aggregate(total=Sum('total'))['total']
+    net=0
+    if fact.remise > 0 and total > fact.remise:
+        net = total - fact.remise
+    else:
+        net = total
+    if newQty < qtyStock:
+        item.total = item.prix * item.qty
+        item.save()
+        total=Cart.objects.aggregate(total=Sum('total'))['total']
+        
+        
+    else:
+        messages.error(request,"La quantité insuffisante !")
+    context= {
+        'items': Cart.objects.all().order_by('pk'),
+        'total':total,
+        'num_facture': fact.numFacture,
+        'remise': fact.remise,
+        'net': net,
+        'total_items': Cart.objects.count(),
+    }
+    html = render(request, "teller/partials/order_detail.html", context)
+    return HttpResponse(html)
 def decreseQty(request, pk):
     item = Cart.objects.get(pk=pk)
     if item.qty > 1:
@@ -233,4 +307,43 @@ def facture(request):
     html = render(request, "teller/partials/receip_modal.html", context)
     return HttpResponse(html) 
 
+def deleteItemInCart(request, pk):
+    item = Cart.objects.get(pk=pk)
+    item.delete()
+    total=Cart.objects.aggregate(total=Sum('total'))['total']
+    fact=Facture.objects.last()
+    net=0
+    if fact.remise > 0 and total > fact.remise:
+        net = total - fact.remise
+    else:
+        net = total
+    context= {
+        'items': Cart.objects.all().order_by('pk'),
+        'total':total,
+        'num_facture': fact.numFacture,
+        'remise': fact.remise,
+        'net': net,
+        'total_items': Cart.objects.count(),
+    }
+    html = render(request, "teller/partials/order_detail.html", context)
+    return HttpResponse(html)
 
+def cancelPrint(request):
+    items = Cart.objects.all()
+    total=Cart.objects.aggregate(total=Sum('total'))['total']
+    fact=Facture.objects.last()
+    net=0
+    if fact.remise > 0 and total > fact.remise:
+        net = total - fact.remise
+    else:
+        net = total
+    context= {
+        'items': items,
+        'total':total,
+        'num_facture': fact.numFacture,
+        'remise': fact.remise,
+        'net': net,
+        'total_items': Cart.objects.count(),
+    }
+    html = render(request, "teller/partials/order_detail.html", context)
+    return HttpResponse(html)

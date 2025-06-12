@@ -1,9 +1,9 @@
 {% load widget_tweaks %}
+<!-- RESPONSE YUUUUUUUUUUUUU -->
 <div class="col-sm-4 col-12" id="add-product-category">
-    <div class="mb-3" id="add-product-category">
+    <div class="mb-3">
         <div class="add-newplus">
-            <label class="form-label">Catégorie du produit<span
-                    class="text-danger ms-1">*</span></label>
+            <label class="form-label">Catégorie du produit<span class="text-danger ms-1">*</span></label>
             <a hx-get="{% url 'product:add_new_category' %}" hx-target="#dialog"><i data-feather="plus-circle"
                     class="plus-down-add"></i><span>Add
                     New</span></a>
@@ -11,28 +11,5 @@
 
         {% render_field form.categorie class="select select2-hidden-accessible" %}
     </div>
-    
 
-    <script>
-    
-        htmx.on("htmx:afterSwap", (e) => {
-                if (e.detail.target.id === "dialog") {
-                    modal.show();
-                }
-                if (e.detail.target.id === "content") {
-                    loadTable();
-                }
-                if ($('.select').length > 0) {
-                    $('.select').select2({
-                        minimumResultsForSearch: -1,
-                        width: '100%'
-                    });
-                    
-                }
-            
-                
-                 
-        });
-        
-     </script>
 </div>

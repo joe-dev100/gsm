@@ -1699,11 +1699,13 @@ $(document).ready(function(){
 	// Attach keydown event only when modal is open
     $('#calculator').on('shown.bs.modal', function () {
         document.addEventListener("keydown", myFunction);
+		console.log('Modal is open');
     });
 
     // Remove keydown event when modal is closed
     $('#calculator').on('hidden.bs.modal', function () {
         document.removeEventListener("keydown", myFunction);
+		console.log('Modal is closed');
     });
 
 	// Circle Progress

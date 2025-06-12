@@ -65,7 +65,7 @@
                                         <div class="add-newplus">
                                             <label class="form-label">Catégorie du produit<span
                                                     class="text-danger ms-1">*</span></label>
-                                            <a hx-get="{% url 'product:add_new_category' %}" hx-target="#dialog"><i data-feather="plus-circle"
+                                            <a hx-get="{% url 'product:add_new_category' %}" hx-target="#dialog" hx-swap="outerHTML"><i data-feather="plus-circle"
                                                     class="plus-down-add"></i><span>Add
                                                     New</span></a>
                                         </div>

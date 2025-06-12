@@ -8,9 +8,13 @@
                 <h4 class="mb-0">Nouvelle facture</h4>
                 <span class="badge badge-purple badge-xs fs-10 fw-medium ms-2">{{num_facture}}</span>
             </div>
+            
+            {% if total_items > 0 %}
+                
             <a href="#" class="btn btn-sm btn-outline-primary shadow-primary" data-bs-toggle="modal" data-bs-target="#clearCart">Vider le pagnier</a>
+            {% endif %}
         </div>
-        <input type="text" class="form-control" placeholder="Nom du client">
+       
         {% if messages %}
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
@@ -55,17 +59,41 @@
                                 <td>
                                     <div class="qty-item m-0">
                                         <a hx-get="{% url 'vente:decreseQty' item.pk %}" hx-target="#product-order-list" class="dec d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="minus" data-bs-original-title="minus"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle feather-14"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg></a>
-                                        <input type="text" class="form-control text-center" name="qty" value="{{item.qty}}" >
+                                        <input type="text" class="form-control text-center" name="qty" value="{{item.qty}}" hx-get="{% url 'vente:change_qty_in_input' item.pk %}" hx-target="#product-order-list" hx-trigger="keyup delay:1s">
                                         <a hx-get="{% url 'vente:increseQty' item.pk %}" hx-target="#product-order-list" class="inc d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="plus" data-bs-original-title="plus"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle feather-14"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></a>
                                     </div>
                                 </td>
                                 <td class="fw-bold">{{item.total}} CDF</td>
                                 <td class="text-end">
-                                    <a class="btn-icon delete-icon" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete">
+                                    <a class="btn-icon delete-icon" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete{{item.pk}}">
                                         <i class="ti ti-trash"></i>
                                     </a>
                                 </td>
                             </tr>
+                            <!-- Delete Product -->
+		<div class="modal fade modal-default" id="delete{{item.pk}}" aria-labelledby="payment-completed">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body p-0">
+						<div class="success-wrap text-center">
+							<form >
+								<div class="icon-success bg-danger-transparent text-danger mb-2">
+									<i class="ti ti-trash"></i>
+								</div>
+								<h3 class="mb-2">SUPPRESSION!</h3>
+								<p class="fs-16 mb-3">L'article  <code>{{item.product.libelle}}</code> sera supprimé du pagnier, voulez-vous continuer ?</p>
+								<div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+									<button type="button" class="btn btn-md btn-secondary" data-bs-dismiss="modal">Non,
+										Annuler</button>
+									<button type="submit" class="btn btn-md btn-primary" data-bs-dismiss="modal" hx-get="{% url 'vente:deleteItemInCart' item.pk %}" hx-target="#product-order-list">Oui, Supprimer</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Delete Product -->
                             {% endfor %}
                                 
                             

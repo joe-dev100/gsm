@@ -1,10 +1,11 @@
+import datetime
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
+from cash.models import Cash, EntreeCash, SortieCash
 from category.models import Categorie
 from django.contrib import messages
-from django.db.models import  Sum,Count
-from django.db.models import Q
-from django.db.models import Count
+from django.db.models import  Sum,Count,Q
+
 from product.models import Product
 from user.models import User
 from vente.models import Facture
@@ -13,8 +14,30 @@ from vente.models import Facture
 def index(request):
     return render(request,'dashboard/index.html')
 
-# @login_required
+@login_required
 def teller_view(request):
+    categories=Categorie.objects.all().annotate(num_product=Count("product")).filter(status="Activée").order_by('name')
+    total=Facture.objects.filter(utilisateur__login=request.user, vente__dateVente=datetime.datetime.now().date()).aggregate(total=Sum('netPaye'))['total']
+    articles= Product.objects.all().order_by('libelle')
+    cash=Cash.objects.filter(session__login=request.user).last()
+    context={
+        'categories':categories,
+        'articles':articles,
+        'total':total,
+        'cash':cash,
+        'date':datetime.datetime.now().date(),
+        'entrees':EntreeCash.objects.filter(cash=cash).order_by('-date'),
+        'sorties':SortieCash.objects.filter(cash=cash).order_by('-date'),
+        'total_sortie_dollar':SortieCash.objects.filter(cash=cash).aggregate(total=Sum('dollar'))['total'],
+        'total_sortie_franc':SortieCash.objects.filter(cash=cash).aggregate(total=Sum('franc'))['total'],
+        'total_entree_dollar':EntreeCash.objects.filter(cash=cash).aggregate(total=Sum('dollar'))['total'],
+        'total_entree_franc':EntreeCash.objects.filter(cash=cash).aggregate(total=Sum('franc'))['total'],
+    }
+    
+    return render(request,'teller/index.html',context)
+
+
+def dashboard_view(request):
     categories=Categorie.objects.all().annotate(num_product=Count("product")).filter(status="Activée").order_by('name')
     total=Facture.objects.filter(utilisateur__login=request.user).aggregate(total=Sum('netPaye'))['total']
     articles= Product.objects.all().order_by('libelle')
@@ -24,7 +47,7 @@ def teller_view(request):
         'total':total,
     }
     
-    return render(request,'teller/index.html',context)
+    return render(request,'dashboard/dashboard.html',context)
 
 
 def filter_by_category(request,pk):
@@ -52,3 +75,7 @@ def search_view(request):
         }
         
         return render(request,'teller/partials/product_list.html',context)
+
+
+#TODO:implementer la logique du cash
+#TODO:implementer la logique de depenses 

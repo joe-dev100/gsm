@@ -20,7 +20,7 @@
 		{% endblock title %}
 	</title>
 	{% htmx_script %}
-	<script src="{% static '' %}js/theme-script.js"></script>
+
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="{% static '' %}img/favicon.png">
@@ -449,7 +449,7 @@
 			{% block content %}
 
 			{% endblock content %}
-			<div id="content"></div>
+			<div id="content" hx-get="{% url 'dashboard:dashboard_view' %}" hx-target="this" hx-trigger="load"></div>
 
 			<div
 				class="copyright-footer d-flex align-items-center justify-content-between border-top bg-white gap-3 flex-wrap">
@@ -516,7 +516,7 @@
 	<script src="{% static '' %}js/app_scripts.js"></script>
 
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js" integrity="sha512-rDbVu5s98lzXZsmJoMa0DjHNE+RwPJACogUCLyq3Xxm2kJO6qsQwjbE5NDk2DqmlKcxDirCnU1wAzVLe12IM3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-	<script src="{% static '' %}plugins/rocket-loader/rocket-loader.js" defer></script>
+	<script src="{% static '' %}plugins/rocket-loader/rocket-loader.min.js" defer></script>
 
 	<script src="{% static '' %}js/jszip.min.js"></script>
 	<script src="{% static '' %}js/pdfmake.min.js"></script>
@@ -529,11 +529,6 @@
 	<script src="{% static '' %}js/buttons.print.js"></script>
 	<script src="{% static '' %}js/dataTables.buttons.js"></script>
 
-	<script defer
-		src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
-		integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
-		data-cf-beacon='{"rayId":"9297c487ff9a7414","version":"2025.1.0","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"3ca157e612a14eccbb30cf6db6691c29","b":1}'
-		crossorigin="anonymous"></script>
 	<script>
 		
 		const modal = new bootstrap.Modal(document.getElementById("modal"));

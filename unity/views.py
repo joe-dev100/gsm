@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
+
+from product.models import Product
 from .forms import UnityForm
 from .models import UniteVente
 from django.http import HttpResponseRedirect,HttpResponse
@@ -9,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def unity_view(request):
    
-    unity=UniteVente.objects.all().order_by('unit')
+    unity=UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     form = UnityForm()
     context={
         'uniteventes':unity,
@@ -23,7 +25,7 @@ def unity_view(request):
 
 @login_required
 def unity_add_view(request):
-    uniteventes = UniteVente.objects.all().order_by('unit')
+    uniteventes = UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     form = UnityForm()
     context = {
         'form': form,
@@ -42,10 +44,10 @@ def unity_add_view(request):
         return HttpResponse(html)
     return render(request, 'unity/partial/_add_unity_form.html', context)
 
-
+#TODO: fix delete selection
 def unity_update_view(request, pk):
     cat=UniteVente.objects.get(pk=pk)
-    uniteventes=UniteVente.objects.all().order_by('unit')
+    uniteventes=UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     form = UnityForm(request.POST or None, instance=cat)
     context = {
         'form': form,
@@ -66,9 +68,16 @@ def unity_update_view(request, pk):
     return render(request,'unity/partial/_unity_modal.html',context)
 
 def unity_delete_view(request,pk):
-    cat=UniteVente.objects.get(pk=pk).delete()
+    cat=UniteVente.objects.get(pk=pk)
+    cat.status="Supprimée"
+    cat.save()
+    products= Product.objects.filter(unity=cat)
+    if products.exists():
+        for product in products:
+            product.status="Supprimé"
+            product.save()
    
-    uniteventes=UniteVente.objects.all().order_by('unit')
+    uniteventes=UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     context={
         'uniteventes':uniteventes,
         'page':'unity'
@@ -79,23 +88,29 @@ def unity_delete_view(request,pk):
     
 
 def unity_delete_selection(request):
-    uniteventes = UniteVente.objects.all().order_by('unit')
+    uniteventes = UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     form = UnityForm()
     context = {
         'uniteventes': uniteventes,
         'page': 'UniteVente',
         'form': form,
     }
-
     if request.method == "POST":
         cat_ids = request.POST.getlist('id[]')
+        print(cat_ids)
         if len(cat_ids) == 0:
             messages.error(request, "Veuillez selectionner au moins une unité de vente")
             html = render(request, "unity/partial/response.html", context)
             return HttpResponse(html)
         for id in cat_ids:
             cat = UniteVente.objects.get(pk=id)
-            cat.delete()
+            products= Product.objects.filter(unity=cat)
+            if products.exists():
+                for product in products:
+                    product.status = "Supprimé"
+                    product.save()
+            cat.status="Supprimée"
+            cat.save()
         messages.success(request, f"{len(cat_ids)} Unité de ventes supprimées avec succès")
         html = render(request, "unity/partial/response.html", context)
         return HttpResponse(html)
@@ -103,7 +118,7 @@ def unity_delete_selection(request):
 
 
 def unity_activate_selection(request):
-    uniteventes = UniteVente.objects.all().order_by('unit')
+    uniteventes = UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     form = UnityForm()
     context = {
         'uniteventes': uniteventes,
@@ -118,6 +133,11 @@ def unity_activate_selection(request):
             return HttpResponse(html)
         for id in cat_ids:
             cat = UniteVente.objects.get(pk=id)
+            products= Product.objects.filter(unit=cat)
+            if products.exists():
+                for product in products:
+                    product.status = "Activé"
+                    product.save()
             cat.status = "Activée"
             cat.save()
         messages.success(request, "Unité de ventes activées avec succès")
@@ -127,7 +147,7 @@ def unity_activate_selection(request):
 
 
 def unity_deactivate_selection(request):
-    UniteVentes = UniteVente.objects.all().order_by('unit')
+    UniteVentes = UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     form = UnityForm()
     context = {
         'uniteventes': UniteVentes,
@@ -136,6 +156,7 @@ def unity_deactivate_selection(request):
     }
     if request.method == "POST":
         cat_ids = request.POST.getlist('id[]')
+        print(cat_ids)
         if len(cat_ids) == 0:
             messages.error(request, "Veuillez selectionner au moins une unité de vente")
             html = render(request, "unity/partial/response.html", context)
@@ -152,10 +173,10 @@ def unity_deactivate_selection(request):
 
 def unity_delete_all_view(request):
     count = UniteVente.objects.all().count()
-    
-    UniteVente.objects.all().delete()
+    Product.objects.all().update(status="Supprimé")
+    UniteVente.objects.all().update(status="Supprimée")
    
-    uniteventes=UniteVente.objects.all().order_by('unit')
+    uniteventes=UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     context={
         'uniteventes':uniteventes,
         'page':'unity'
@@ -168,8 +189,8 @@ def unity_active_all_view(request):
     count = UniteVente.objects.filter(status="Désactivée").count()
     
     UniteVente.objects.filter(status="Désactivée").update(status="Activée")
-   
-    uniteventes=UniteVente.objects.all().order_by('unit')
+    Product.objects.all().exclude(categorie__status="Supprimée", status="Supprimé").update(status="Activé")
+    uniteventes=UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     context={
         'uniteventes':uniteventes,
         'page':'unity'
@@ -182,8 +203,8 @@ def unity_deactive_all_view(request):
     count = UniteVente.objects.filter(status="Activée").count()
     
     UniteVente.objects.filter(status="Activée").update(status="Désactivée")
-   
-    uniteventes=UniteVente.objects.all().order_by('unit')
+    Product.objects.all().update(status="Désactivé")
+    uniteventes=UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
     context={
         'uniteventes':uniteventes,
         'page':'unity'
@@ -192,7 +213,43 @@ def unity_deactive_all_view(request):
     html = render(request, "unity/partial/response.html", context)
     return HttpResponse(html)
     
+def show_deleted_unity(request):
+    show_deleted=request.GET.get('show_deleted')
+    status=False
+    uniteventes = UniteVente.objects.filter(status="Supprimée").order_by('unit')
+    if show_deleted is None:
+        status=False
+        uniteventes=UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
+    if show_deleted == "on":
+        status=True
+        uniteventes = UniteVente.objects.filter(status="Supprimée").order_by('unit')
+    context = {
+        'uniteventes': uniteventes,
+        'status': status,
+        'page': 'unity'
+    }
+    print("show_deleted", show_deleted)
+    return render(request, "unity/partial/response.html", context)
+    
+def unity_restore_view(request, pk):
+    cat = UniteVente.objects.get(pk=pk)
+    cat.status = "Activée"
+    cat.save()
+    prod=Product.objects.filter(unity=cat).exists()
+    if prod  and prod.categorie.status=="Activée":
+        prod.status="Activé"
+        prod.save()
+    uniteventes = UniteVente.objects.all().exclude(status="Supprimée").order_by('unit')
+    context = {
+        'uniteventes': uniteventes,
+        'page': 'unity'
+    }
+    messages.success(request, "Unité de vente restaurée avec succès")
+    html = render(request, "unity/partial/response.html", context)
+    return HttpResponse(html)
+ 
 
+    
  
 
     

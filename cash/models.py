@@ -7,9 +7,10 @@ class Cash(models.Model):
     dollar= models.PositiveBigIntegerField()
     franc= models.PositiveBigIntegerField()
     estConfirme= models.BooleanField(default=False)
+    session=models.ForeignKey('vente.Session', on_delete=models.CASCADE, verbose_name="Session")
 
     def __str__(self):
-        return self.date
+        return f"Cash pour {self.session.login.username} du: {self.date} "
 
     class Meta:
         db_table = 't_Cash'
@@ -30,10 +31,10 @@ class EntreeCash(models.Model):
         return self.date
 
     class Meta:
-        db_table = 't_Entree_Stock'
+        db_table = 't_Entree_Cash'
         managed = True
-        verbose_name = 'Entree_stock'
-        verbose_name_plural = 'Entree_stocks'
+        verbose_name = 'Entree_Cash'
+        verbose_name_plural = 'Entree_Cash'
 
 class SortieCash(models.Model):
     date = models.DateField()
@@ -47,7 +48,7 @@ class SortieCash(models.Model):
         return self.date
 
     class Meta:
-        db_table = 't_Sortie_Stock'
+        db_table = 't_Sortie_Cash'
         managed = True
-        verbose_name = 'Sortie_stock'
-        verbose_name_plural = 'Sortie_stocks'
+        verbose_name = 'Sortie_Cash'
+        verbose_name_plural = 'Sortie_Cash'

@@ -16,7 +16,7 @@ class Product(models.Model):
         ('EXP',"Oui le produit a une date d'expiration"),('NOTEXP',"Non le produit n'expire jamais")
     )
     STATUT = (
-        ('Activé','Activé'),('Désactivé','Désactivé') ,('Expiré','Expiré')
+        ('Activé','Activé'),('Désactivé','Désactivé') ,('Expiré','Expiré'),('Supprimé','Supprimé')
     )
     codeRef = models.CharField(max_length=6, verbose_name="Code", validators=[MinLengthValidator(6), MaxLengthValidator(6)])
     categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE,null=True,blank=True)
@@ -60,3 +60,18 @@ class ProductCodeBarre(models.Model):
         managed = True
         verbose_name = 'ProductCodeBarre'
         verbose_name_plural = 'ProductCodeBarres'
+        
+        
+        
+class DateExpiration(models.Model):
+    date=models.DateField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.product.libelle
+
+    class Meta:
+        db_table = 't_DateExpiration'
+        managed = True
+        verbose_name = "Date d'expiration"
+        verbose_name_plural = "Dates d'expiration"

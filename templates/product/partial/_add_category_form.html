@@ -18,11 +18,15 @@
           </button>
         </div>
         <div class="modal-body custom-modal-body">
-          <form  hx-post="{% url 'product:add_new_category' %}" hx-target="#add-product-category" hx-swap="outerHTML" method="post">
+          <form  hx-post="{% url 'product:add_new_category' %}" hx-target="#add-product-category"  method="post" hx-swap="outerHTML">
             {% csrf_token %}
             <div class="mb-3">
               <label class="form-label">Catégorie</label>
               {% render_field form.name class="form-control" %}
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Image</label>
+              {% render_field form.img class="form-control" %}
             </div>
             <div class="mb-3">
               <label class="form-label">Status</label>

@@ -1,7 +1,7 @@
 {% load static %}
 
 
-<div class="mt-0" id="print-receipt" aria-labelledby="print-receipt">
+<div class="mt-0 mb-5" id="print-receipt" aria-labelledby="print-receipt">
     <div class="mt-0 modal-dialog modal-dialog-centered" id="dialog">
         <div class="modal-content mt-0">
             <div class="modal-body mt-0">
@@ -83,7 +83,9 @@
                         <p>**La marchandise vendu n'est ni rémise ni réprise!** Merci de nous faire confiance, on revoit
                             bientôt</p>
                     </div>
-
+                    <a  href="javascript:void(0);" class="btn btn-md btn-danger" id="printBtn"
+                        hx-get="{% url 'vente:cancelPrint' %}"
+						hx-target="#product-order-list" hx-swap="outerHTML" >Annuler la facture</a>
                     <a onclick="print()" href="javascript:void(0);" class="btn btn-md btn-primary" id="printBtn"
                         hx-get="{% url 'vente:saveCart' %}" hx-target="#content"  data-bs-dismiss="modal" >Imprimer la facture</a>
                         <br>

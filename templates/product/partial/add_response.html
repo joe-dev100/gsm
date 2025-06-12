@@ -3,8 +3,15 @@
     <div class="page-header">
         <div class="add-item d-flex">
             <div class="page-title">
+                
+                {% if action == "update" %}
+                <h4 class="fw-bold">Modification de l'article</h4>
+                <h6>Gérer les modifications de l'article</h6>
+                {% else %}
                 <h4 class="fw-bold">Créer un article</h4>
                 <h6>Créer un nouvel article</h6>
+                {% endif %}
+                    
             </div>
         </div>
         <ul class="table-top-head">
@@ -56,28 +63,27 @@
 
                                     </div>
                                 </div>
-                                <div class="col-sm-4 col-12">
-                                    <div class="mb-3" id="add-product-category">
+                                <div class="col-sm-4 col-12" id="add-product-category">
+                                    <div class="mb-3" >
                                         <div class="add-newplus">
                                             <label class="form-label">Catégorie du produit<span
                                                     class="text-danger ms-1">*</span></label>
-                                            <a hx-get="{% url 'product:add_new_category' %}" hx-target="#dialog"><i data-feather="plus-circle"
-                                                    class="plus-down-add"></i><span>Add
-                                                    New</span></a>
+                                            <a hx-get="{% url 'product:add_new_category' %}" hx-target="#dialog" ><i data-feather="plus-circle"
+                                                    class="plus-down-add"></i><span>Add New</span>
+                                            </a>
                                         </div>
 
                                         {% render_field form.categorie class="select select2-hidden-accessible" %}
                                     </div>
                                     
                                 </div>
-                                <div class="col-sm-4 col-12">
+                                <div class="col-sm-4 col-12" id="add-product-unity">
 
                                     <div class="mb-3">
                                         <div class="add-newplus">
                                             <label class="form-label">Unité de vente<span
                                                     class="text-danger ms-1">*</span></label>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#add-product-category"><i data-feather="plus-circle"
+                                            <a hx-get="{% url 'product:add_new_unity' %}" hx-target="#dialog"><i data-feather="plus-circle"
                                                     class="plus-down-add"></i><span>Add
                                                     New</span></a>
                                         </div>
@@ -237,7 +243,17 @@
                         width: '100%'
                     });
                 }
-
+                if($('.datetimepicker').length > 0 ){
+		$('.datetimepicker').datetimepicker({
+			format: 'YYYY-MM-DD',
+			icons: {
+				up: "fas fa-angle-up",
+				down: "fas fa-angle-down",
+				next: 'fas fa-angle-right',
+				previous: 'fas fa-angle-left'
+			}
+		});
+	}
 
             });
      </script>

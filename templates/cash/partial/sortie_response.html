@@ -1,0 +1,66 @@
+<div class="" id="sortie_response">
+	{% if messages %}
+	{% for message in messages %}
+	<div class="alert alert-{{ message.tags }} alert-dismissible fade show mx-2 mt-2">
+		{{ message }}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i
+				class="fas fa-xmark"></i></button>
+	</div>
+	{% endfor %}
+	{% endif %}
+	<div class="card bg-light mb-3">
+		<div class="card-body ">
+			<form action="">
+				{% csrf_token %}
+				<h5 class="mb-2">Nouvelle sortie cash</h5>
+				<div class="row">
+					<div class="col-6 mb-3">
+						<input type="number" class="form-control" placeholder="Montant en dollar" name="dollar">
+					</div>
+					<div class="col-6 mb-3">
+						<input type="number" class="form-control" placeholder="Montant en franc" name="franc">
+					</div>
+					<div class="col-9 mb-3">
+						<input type="text" class="form-control" placeholder="Description" name="description" required>
+					</div>
+					<div class="col-3 mb-3">
+						<button type="submit" class="btn btn-md btn-orange w-100">Ajouter</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table mb-0">
+			<thead>
+				<tr>
+					<th>Dollar</th>
+					<th>Franc</th>
+					<th>Description</th>
+					<th>Statut</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				{% for item in sorties %}
+				<tr>
+					<td>{{item.dollar}}</td>
+					<td>{{item.franc}}</td>
+					<td>{{item.description}}</td>
+					<td>
+						{% if item.estConfirme %}
+						<span class="badge bg-success fw-medium fs-10">Validé</span>
+						{% else %}
+						<span class="badge bg-danger fw-medium fs-10">Non validé</span>
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+
+
+
+			</tbody>
+		</table>
+	</div>
+</div>

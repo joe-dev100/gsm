@@ -1,5 +1,8 @@
 
 function myFunction(event) {
+  console.log(event.key);
+  console.log(event.keyCode);
+  console.log("okkkk");
   let inputField = document.querySelector(".input");
 
   if (/[0-9+\-*/%.]/.test(event.key)) {
@@ -37,3 +40,6 @@ function back() {
 function dis(val) {
   document.querySelector(".input").value += val;
 }
+
+
+
